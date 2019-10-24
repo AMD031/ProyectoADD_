@@ -38,10 +38,7 @@ public class SedeDao implements IDaosSede{
            if( ps.executeUpdate()>0){
                Correcto = true;
            }
-            
-            
-          
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(SedeDao.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
@@ -81,9 +78,11 @@ public class SedeDao implements IDaosSede{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+
+   
     @Override
-    public Sede obtener(Sede cod) {
-       Sede sede =null;
+    public Sede obtener(Integer cod) {
+        Sede sede =null;
         String sentencia ="Select * from sede where cod = ?;";
         try {
           PreparedStatement ps = Conexion.obtener().prepareStatement(sentencia);

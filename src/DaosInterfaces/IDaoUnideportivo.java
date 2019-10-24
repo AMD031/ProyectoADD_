@@ -5,12 +5,12 @@
  */
 package DaosInterfaces;
 
-import Modelo.Sede;
+import Modelo.Unideportivo;
 
 /**
  *
- * @author Your Name <Antonio Martinez Diaz>
+ * @author Antonio Martinez Diaz
  */
-public interface IDaosSede extends IDaos<Sede, Integer>{
+public interface IDaoUnideportivo extends IDaos<Unideportivo,Integer >{
     
 }

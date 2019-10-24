@@ -15,7 +15,7 @@ public interface IDaos<T, K> {
     public void modificar(T a);
     public int eliminar(T a);
     public List<T>ObtenerTodos();
-    public T obtener(T cod);
+    public T obtener(K cod);
     
     
     
