@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 package DaosInterfaces;
-
-import Modelo.Sede;
 import java.util.List;
 
 /**
@@ -15,9 +13,9 @@ import java.util.List;
 public interface IDaos<T, K> {
     public boolean insertar(T a);
     public void modificar(T a);
-    void eliminar(T a);
-    List<T>ObtenerTodos();
-    T obtener(T cod);
+    public int eliminar(T a);
+    public List<T>ObtenerTodos();
+    public T obtener(T cod);
     
     
     

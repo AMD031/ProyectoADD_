@@ -3,8 +3,8 @@ package Daos;
 import DaosInterfaces.IDaosSede;
 import Modelo.Conexion;
 import Modelo.Sede;
-import java.io.IOException;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -45,15 +45,12 @@ public class SedeDao implements IDaosSede{
         } catch (SQLException ex) {
             Logger.getLogger(SedeDao.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
-                try {
-                    n.cerrar();
-                } catch (SQLException ex) {
-                    Logger.getLogger(SedeDao.class.getName()).log(Level.SEVERE, null, ex);
-                }
+             
+            n.cerrar();
+              
         }
 
-     return Correcto; 
-                
+     return Correcto;               
     }
 
     @Override
@@ -62,8 +59,21 @@ public class SedeDao implements IDaosSede{
     }
 
     @Override
-    public void eliminar(Sede a) {
-       
+    public int eliminar(Sede a) {
+       int cantidad =0;
+       String sentencia ="DELETE FROM sede WHERE = ?;";
+        try {
+          PreparedStatement ps = Conexion.obtener().prepareStatement(sentencia);
+          cantidad = ps.executeUpdate();
+
+         } catch (SQLException ex) {
+            Logger.getLogger(SedeDao.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+             Conexion.cerrar();
+        }
+   
+       return cantidad;
+        
     }
 
     @Override
@@ -73,8 +83,22 @@ public class SedeDao implements IDaosSede{
 
     @Override
     public Sede obtener(Sede cod) {
-        throw new UnsupportedOperationException("Not supported yet.");
-        //To change body of generated methods, choose Tools | Templates.
+       Sede sede =null;
+        String sentencia ="Select * from sede where cod = ?;";
+        try {
+          PreparedStatement ps = Conexion.obtener().prepareStatement(sentencia);
+          ResultSet rs =  ps.executeQuery();
+           
+            while (rs.next()) {
+              rs.getInt("cod");
+              
+              
+            }
+   
+           } catch (SQLException ex) {
+            Logger.getLogger(SedeDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return sede;
     }
     
     

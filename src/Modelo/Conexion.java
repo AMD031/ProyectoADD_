@@ -73,9 +73,14 @@ public class Conexion {
       return cnx;
    }
    
-   public static void cerrar() throws SQLException {
+   public static void cerrar() {
+       
       if (cnx != null) {
-         cnx.close();
+          try {
+              cnx.close();
+          } catch (SQLException ex) {
+              Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+          }
       }
    }
    
