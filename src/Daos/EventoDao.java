@@ -7,6 +7,7 @@ package Daos;
 
 import DaosInterfaces.IDaoEvento;
 import Modelo.Evento;
+import java.sql.Connection;
 import java.util.List;
 
 /**
@@ -14,6 +15,13 @@ import java.util.List;
  * @author Antonio Martinez Diaz
  */
 public class EventoDao implements IDaoEvento {
+    
+    private Connection n;
+
+    public EventoDao(Connection n) {
+        this.n = n;
+    }
+    
 
     @Override
     public boolean insertar(Evento a) {

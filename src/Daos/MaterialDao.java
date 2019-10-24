@@ -7,13 +7,46 @@ package Daos;
 
 import DaosInterfaces.IDaoMaterial;
 import Modelo.Material;
+import java.sql.Connection;
 import java.util.List;
 
 /**
  *
  * @author Antonio Martinez Diaz
  */
-public class MaterialDao{
+public class MaterialDao implements IDaoMaterial{
+    
+    private Connection n;
+
+    public MaterialDao(Connection n) {
+        this.n = n;
+    }
+    
+
+    @Override
+    public boolean insertar(Material a) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void modificar(Material a) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int eliminar(Material a) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Material> ObtenerTodos() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Material obtener(Integer cod) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
    
     

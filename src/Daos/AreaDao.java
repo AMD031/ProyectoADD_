@@ -7,6 +7,8 @@ package Daos;
 
 import DaosInterfaces.IDaoArea;
 import Modelo.Area;
+import java.sql.Connection;
+
 import java.util.List;
 
 /**
@@ -14,6 +16,11 @@ import java.util.List;
  * @author Antonio Martinez Diaz
  */
 public class AreaDao implements IDaoArea{
+    private Connection n;
+
+    public AreaDao(Connection n) {
+        this.n = n;
+    }
 
     @Override
     public boolean insertar(Area a) {

@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package DaosInterfaces;
+import Daos.DaoExepcion;
 import java.util.List;
 
 /**
@@ -11,12 +12,11 @@ import java.util.List;
  * @author Your Name <Antonio Martinez Diaz>
  */
 public interface IDaos<T, K> {
-    public boolean insertar(T a);
-    public void modificar(T a);
-    public int eliminar(T a);
-    public List<T>ObtenerTodos();
-    public T obtener(K cod);
-    
-    
+    public boolean insertar(T a) throws DaoExepcion;
+    public void modificar(T a)throws DaoExepcion;
+    public int eliminar(T a)throws DaoExepcion;
+    public List<T>ObtenerTodos()throws DaoExepcion;
+    public T obtener(K cod)throws DaoExepcion;
+
     
 }

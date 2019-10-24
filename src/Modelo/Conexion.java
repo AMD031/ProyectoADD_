@@ -1,22 +1,17 @@
 package Modelo;
 
 
-import java.io.BufferedWriter;
+
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.naming.spi.DirStateFactory;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import jdk.internal.org.xml.sax.SAXException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -39,7 +34,7 @@ public class Conexion {
 		this.host=host;
 		this.bbdd=bbdd;
 		this.login=login;
-                if(password ==null || password.equals("")){
+                if(password ==null || password.equals(" ")){
                     this.password ="";
                 }else{
                     this.password=password;	
@@ -49,11 +44,9 @@ public class Conexion {
 
    private static Connection cnx = null;
    public static Connection obtener() {
-       try {
+
            leeXml();
-       } catch (IOException ex) {
-           Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
-       }
+   
       if (cnx == null) {
      
            try {
@@ -86,7 +79,7 @@ public class Conexion {
    
    
    
-    public static void leeXml() throws IOException {
+    public static void leeXml(){
        ArrayList<String>datos=null;
    
        try {
@@ -104,11 +97,11 @@ public class Conexion {
            } 
          }
          
-       } catch (ParserConfigurationException ex) {
-           Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
        } catch (org.xml.sax.SAXException ex) {
            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
        } catch (IOException ex) {
+           Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+       } catch (ParserConfigurationException ex) {
            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
        }
        if(datos!=null){
@@ -116,7 +109,8 @@ public class Conexion {
        }
 
     }
-   
+ 
+    
 }
 
 

@@ -3,6 +3,7 @@ package Daos;
 import DaosInterfaces.IDaosSede;
 import Modelo.Conexion;
 import Modelo.Sede;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,41 +11,46 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
  *
  * @author Your Name <Antonio Martinez Diaz>
  */
 public class SedeDao implements IDaosSede{
+    
+    private static final String obtener  ="Select * from headquarter where id = ?;";
+    private static final String obtenerTodos  ="Select * from headquarter where cod = ?;";
+    private static final String Borrar  ="Delete * from sede";
+    private static final String Actualizar  ="";
+    private static final String insertar  ="";
+    
+    
+   private Connection n;
 
-    Conexion n;
-
-    public SedeDao(Conexion n) {
+    public SedeDao(Connection n) {
         this.n = n;
     }
-    
+
     
     @Override
-    public boolean insertar(Sede a) {
+    public boolean insertar(Sede a) throws DaoExepcion {
      boolean Correcto = false;
             String sentencia ="";
             PreparedStatement ps =null;
             
         try {
-           ps =  n.obtener().prepareStatement(sentencia);
+           ps =  Conexion.obtener().prepareStatement(sentencia);
            ps.setInt(1, 0);
+           
            
            
            if( ps.executeUpdate()>0){
                Correcto = true;
            }
-
+           
         } catch (SQLException ex) {
-            Logger.getLogger(SedeDao.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DaoExepcion(ex);       
         }finally{
-             
-            n.cerrar();
-              
+            Conexion.cerrar();
         }
 
      return Correcto;               
@@ -83,9 +89,9 @@ public class SedeDao implements IDaosSede{
     @Override
     public Sede obtener(Integer cod) {
         Sede sede =null;
-        String sentencia ="Select * from sede where cod = ?;";
+      
         try {
-          PreparedStatement ps = Conexion.obtener().prepareStatement(sentencia);
+          PreparedStatement ps = Conexion.obtener().prepareStatement(obtener);
           ResultSet rs =  ps.executeQuery();
            
             while (rs.next()) {
