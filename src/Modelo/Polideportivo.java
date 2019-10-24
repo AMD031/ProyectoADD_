@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author Antonio Martinez Diaz
  */
-public class Polideportivo {
+public class Polideportivo extends Complejo{
 
     public int getCod_complejo() {
         return cod_complejo;
@@ -33,11 +33,14 @@ public class Polideportivo {
    private String info;
    private List<Area>areas;
 
-    public Polideportivo(int cod_complejo, String info) {
+    public Polideportivo(int cod_complejo, String info, List<Area> areas, int cod, String localizacion, String jefe, int cod_sede) {
+        super(cod, localizacion, jefe, cod_sede);
         this.cod_complejo = cod_complejo;
         this.info = info;
+        this.areas = areas;
     }
-   
+
+
     
     
     

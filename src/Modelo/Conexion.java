@@ -48,19 +48,27 @@ public class Conexion {
 	
 
    private static Connection cnx = null;
-   public static Connection obtener() throws SQLException, ClassNotFoundException, IOException {
-      leeXml();
+   public static Connection obtener() {
+       try {
+           leeXml();
+       } catch (IOException ex) {
+           Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+       }
       if (cnx == null) {
-         try {
-            Class.forName("com.mysql.jdbc.Driver");
+     
+           try {
+               Class.forName("com.mysql.jdbc.Driver");
+      
             cnx =  DriverManager.getConnection("jdbc:mysql://"+Conexion.host+"/"+Conexion.bbdd+
                     "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&user="
                     +Conexion.login+"&password="+Conexion.password);
-         } catch (SQLException ex) {
-            throw new SQLException(ex);
-         } catch (ClassNotFoundException ex) {
-            throw new ClassCastException(ex.getMessage());
-         }
+      
+                 } catch (ClassNotFoundException ex) {
+               Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+           } catch (SQLException ex) {
+               Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+           }
+            
       }
       return cnx;
    }
