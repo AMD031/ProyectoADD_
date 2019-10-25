@@ -9,22 +9,6 @@ package Vista;
  *
  * @author Antonio Martinez Diaz
  */
-public class Menu {
-    
-    
-    
-    
-    
-    
-    
-    private void IniciaMenus(){
-        
-    }
-    
-    
-    
-    
-    
-    
+public class Main {
     
 }
