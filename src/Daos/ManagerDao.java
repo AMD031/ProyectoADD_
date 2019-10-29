@@ -6,6 +6,7 @@
 package Daos;
 
 import Modelo.Conexion;
+import Modelo.Material;
 
 /**
  *
@@ -41,7 +42,7 @@ public class ManagerDao {
         return eventodao;
     }
 
-    public MaterialDao getMateraildao() {
+    public static MaterialDao getMateraildao() {
         
        if(materialdao ==null){
           materialdao = new MaterialDao(Conexion.obtener());
@@ -65,7 +66,7 @@ public class ManagerDao {
         return sededao;
     }
 
-    public UnideportivoDao getUnideportivo() {
+    public  UnideportivoDao getUnideportivo() {
        if(unideportivo==null){
            unideportivo = new UnideportivoDao(Conexion.obtener());
        }
@@ -76,23 +77,13 @@ public class ManagerDao {
     private ComisarioDao comisariodao;
     private ComplejoDao complejodao;
     private EventoDao eventodao;
-    private MaterialDao materialdao;
+    private static MaterialDao materialdao;
     private PolideportivoDao polideportivo;
     private SedeDao sededao;
     private UnideportivoDao unideportivo;
+ 
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+  
     
 }
+

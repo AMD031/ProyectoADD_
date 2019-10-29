@@ -33,9 +33,10 @@ public class Material {
         this.cod = cod;
         this.nombre = nombre;
     }
-    
-    
-    
- 
-    
+
+    @Override
+    public String toString() {
+        return "Material{" + "cod=" + cod + ", nombre=" + nombre + '}';
+    }
+      
 }

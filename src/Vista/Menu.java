@@ -43,6 +43,7 @@ public class Menu {
         Principal.add("6 Menu area");
         Principal.add("7 Menu evento");
         Principal.add("8 Menu comisario");
+        Principal.add("9 Menu material");
         Principal.add("0 salir");
     }
 
@@ -52,7 +53,7 @@ public class Menu {
         Submenu.add("2 Actualizar " + txt);
         Submenu.add("3 Borrar " + txt);
         Submenu.add("4 Listar " + txt);
-        Submenu.add("6 Listar todos" + txt + "s");
+        Submenu.add("6 Listar todos ");
         return Submenu;
     }
 
@@ -112,6 +113,13 @@ public class Menu {
 
                 break;
 
+            case 9:
+              imprimeMenu(creaSubmenu("Material"));
+              
+              
+              break;
+                
+                
         }
         
         }catch(InputMismatchException e){

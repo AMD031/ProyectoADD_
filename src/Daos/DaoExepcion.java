@@ -21,6 +21,8 @@ public class DaoExepcion extends Exception{
 
     public DaoExepcion(Throwable cause) {
         super(cause);
+        
+      
     }
     
     
