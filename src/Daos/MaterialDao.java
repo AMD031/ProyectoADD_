@@ -40,8 +40,12 @@ public class MaterialDao implements IDaoMaterial{
          
         try {
             PreparedStatement ps =  n.prepareStatement(sentencia);
-            ps.setInt(1, a.getCod());
+        
             ps.setString(2, a.getNombre());
+            ResultSet rs =  ps.getGeneratedKeys();
+            while(rs.next()){
+                ps.setInt(1, rs.getInt(1));
+            }
            
             if( ps.executeUpdate()>0){
                correcto = true;
@@ -70,7 +74,7 @@ public class MaterialDao implements IDaoMaterial{
     }
 
     @Override
-    public int eliminar(Material a) {
+    public int eliminar(Material a) throws DaoExepcion {
         int cantidad = 0;
         String Sentencia =   "DELETE FROM equipment WHERE id =?";
         try {
@@ -79,13 +83,13 @@ public class MaterialDao implements IDaoMaterial{
             cantidad =  ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println(ex);
-            new DaoExepcion(ex);
+            throw new DaoExepcion(ex);
         }
         return cantidad;
     }
 
     @Override
-    public List<Material> ObtenerTodos() {
+    public List<Material> ObtenerTodos() throws DaoExepcion {
        ArrayList<Material> materiales = null;
        Material material = null;
        String consulta ="SELECT * FROM equipment";
@@ -106,19 +110,19 @@ public class MaterialDao implements IDaoMaterial{
               
             } 
         } catch (SQLException ex) {
-             new DaoExepcion(ex);
+                throw new DaoExepcion(ex);
         }finally{
            try {
                n.close();
            } catch (SQLException ex) {
-              new DaoExepcion(ex);
+                throw new DaoExepcion(ex);
            }
         }
         return materiales;
     }
 
     @Override
-    public Material obtener(Integer cod) {
+    public Material obtener(Integer cod) throws DaoExepcion {
        Material material = null;
        String consulta ="SELECT * FROM equipment where id = ?";
         try {
@@ -139,7 +143,7 @@ public class MaterialDao implements IDaoMaterial{
            try {
                n.close();
            } catch (SQLException ex) {
-              new DaoExepcion(ex);
+              throw new DaoExepcion(ex);
            }
         }
         return material;

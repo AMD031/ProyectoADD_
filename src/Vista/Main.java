@@ -5,6 +5,7 @@
  */
 package Vista;
 
+import Daos.DaoExepcion;
 import Daos.ManagerDao;
 import Modelo.Material;
 
@@ -16,12 +17,11 @@ import Modelo.Material;
 public class Main {
  
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws DaoExepcion {
        boolean b = ManagerDao.getMateraildao().insertar(null);
-       System.out.println(b);
        ManagerDao.getMateraildao().modificar(null);
        Material z = new Material(3, "arco");
-       ManagerDao.getMateraildao().eliminar(z);
+      // ManagerDao.getMateraildao().eliminar(z);
        
         for (Material m : ManagerDao.getMateraildao().ObtenerTodos()){
            System.out.println(m); 

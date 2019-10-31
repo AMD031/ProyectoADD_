@@ -11,10 +11,11 @@ package Modelo;
  */
 public class Area {
 
-    public Area(int cod, int cod_poli, String localizacion) {
+    public Area(int cod, int cod_poli, String localizacion, String deporte) {
         this.cod = cod;
         this.cod_poli = cod_poli;
         this.localizacion = localizacion;
+        this.deporte = deporte;
     }
 
     public int getCod() {
@@ -52,6 +53,13 @@ public class Area {
     private int cod_poli;
     private String localizacion;
     private String deporte;
+    
+    
+    @Override
+    public String toString() {
+        return "Area{" + "cod=" + cod + ", cod_poli=" + cod_poli + ", localizacion=" + localizacion + ", deporte=" + deporte + '}';
+    }
+
     
     
 }
