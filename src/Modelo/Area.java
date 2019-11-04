@@ -10,6 +10,7 @@ package Modelo;
  * @author Antonio Martinez Diaz
  */
 public class Area {
+    
 
     public Area(int cod, int cod_poli, String localizacion, String deporte) {
         this.cod = cod;

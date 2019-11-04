@@ -6,17 +6,15 @@
 package Daos;
 
 import DaosInterfaces.IDaoMaterial;
+import Modelo.Conexion;
 import Modelo.Material;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-
+import org.apache.commons.lang3.StringUtils;
 
 
 /**
@@ -25,68 +23,55 @@ import java.util.logging.Logger;
  */
 public class MaterialDao implements IDaoMaterial{
     
-    private Connection n;
-    
-    public MaterialDao(Connection n) {
-        this.n = n;
-    }
+
     
     @Override
-    public boolean insertar(Material a) {
+    public boolean insertar(Material a) throws DaoExepcion {
         boolean correcto = false;
-         String sentencia = "INSERT INTO equipment(id, name)" +
-         "VALUES (?,?);";
-         a = new Material(3,"raqueta");
+         String sentencia = "INSERT INTO equipment( name)" +
+         "VALUES (?)";
+  
          
         try {
-            PreparedStatement ps =  n.prepareStatement(sentencia);
-        
-            ps.setString(2, a.getNombre());
-            ResultSet rs =  ps.getGeneratedKeys();
-            while(rs.next()){
-                ps.setInt(1, rs.getInt(1));
-            }
-           
+            PreparedStatement ps =  Conexion.obtener().prepareStatement(sentencia, PreparedStatement.RETURN_GENERATED_KEYS);
+            ps.setString(1, a.getNombre());
             if( ps.executeUpdate()>0){
                correcto = true;
            }
-  
+            ResultSet rs =  ps.getGeneratedKeys();
+            if(!rs.next()){
+                throw  new DaoExepcion("No se ha podido asignar clave.");
+            }
+            
         } catch (SQLException ex) {
-           new DaoExepcion(ex);
+          throw new DaoExepcion(ex);
+        }finally{
+            Conexion.cerrar();
         }
        return correcto;
     }
 
-    @Override
-    public void modificar(Material a) {
-        String sentencia = "UPDATE equipment set name = ? where id = ?  ";
-        a = new Material(3,"arco");
-        try {
-            PreparedStatement ps =  n.prepareStatement(sentencia);
-            ps.setString(1, a.getNombre());
-            ps.setInt(2, a.getCod());
-            ps.executeUpdate();
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(MaterialDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    
-    }
+  
+
 
     @Override
-    public int eliminar(Material a) throws DaoExepcion {
+    public int eliminar(Integer  a) throws DaoExepcion {
         int cantidad = 0;
-        String Sentencia =   "DELETE FROM equipment WHERE id =?";
+        String Sentencia = "DELETE FROM equipment WHERE id =?";
         try {
-            PreparedStatement ps =  n.prepareStatement(Sentencia);
-            ps.setInt(1,a.getCod());
+            PreparedStatement ps =  Conexion.obtener().prepareStatement(Sentencia);
+            ps.setInt(1,a);
             cantidad =  ps.executeUpdate();
         } catch (SQLException ex) {
-            System.out.println(ex);
             throw new DaoExepcion(ex);
+        }finally{
+            Conexion.cerrar();
         }
+        
         return cantidad;
     }
+
+  
 
     @Override
     public List<Material> ObtenerTodos() throws DaoExepcion {
@@ -94,7 +79,7 @@ public class MaterialDao implements IDaoMaterial{
        Material material = null;
        String consulta ="SELECT * FROM equipment";
         try {
-            PreparedStatement ps =   n.prepareStatement(consulta);
+            PreparedStatement ps =   Conexion.obtener().prepareStatement(consulta);
             ResultSet rs  = ps.executeQuery();
               int id;
               String nombre;
@@ -107,16 +92,11 @@ public class MaterialDao implements IDaoMaterial{
               if(material!=null){
                   materiales.add(material);
               }
-              
             } 
         } catch (SQLException ex) {
                 throw new DaoExepcion(ex);
         }finally{
-           try {
-               n.close();
-           } catch (SQLException ex) {
-                throw new DaoExepcion(ex);
-           }
+          Conexion.cerrar();
         }
         return materiales;
     }
@@ -127,7 +107,7 @@ public class MaterialDao implements IDaoMaterial{
        String consulta ="SELECT * FROM equipment where id = ?";
         try {
            
-            PreparedStatement ps =   n.prepareStatement(consulta);
+            PreparedStatement ps =   Conexion.obtener().prepareStatement(consulta);
             ps.setInt(1, cod);
             ResultSet rs  = ps.executeQuery();
               int id;
@@ -140,13 +120,47 @@ public class MaterialDao implements IDaoMaterial{
         } catch (SQLException ex) {
             System.out.println(ex);
         }finally{
-           try {
-               n.close();
-           } catch (SQLException ex) {
-              throw new DaoExepcion(ex);
-           }
+         Conexion.cerrar();
         }
         return material;
+    }
+
+    @Override
+    public boolean modificar(HashMap<Object, Object> a, Integer id) throws DaoExepcion {
+        boolean correcto = false;
+        int p = 1;
+        try {
+            List<String> clausulas = new ArrayList<>();
+            for (Object key : a.keySet()) {
+                clausulas.add(String.format("%s=?", key));
+            }
+            
+            String consulta = String.format("UPDATE equipment SET %s WHERE id=?",
+                     StringUtils.join(clausulas, ","));
+
+            PreparedStatement ps = Conexion.obtener().prepareStatement(consulta);
+            for (Object key : a.keySet()) {
+                
+                if (a.get(key) instanceof String) {
+                    ps.setString(p++, (String) a.get(key));
+                }
+            }
+ 
+            ps.setInt(p,id);
+            
+            if (ps.executeUpdate() == 0) {
+                throw new DaoExepcion("No se ha podido modificar el registro");
+            } else {
+                correcto = true;
+            }
+
+        } catch (Exception ex) {
+            throw new DaoExepcion(ex);
+        } finally {
+            Conexion.cerrar();
+        }
+
+        return correcto;
     }
 
    

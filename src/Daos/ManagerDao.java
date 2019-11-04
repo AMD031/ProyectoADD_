@@ -6,7 +6,9 @@
 package Daos;
 
 import Modelo.Conexion;
-import Modelo.Material;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -14,76 +16,70 @@ import Modelo.Material;
  */
 public class ManagerDao {
 
-    public AreaDao getAreadao() {
-       if(areadao==null){
-           areadao = new AreaDao(Conexion.obtener());
-       }
+    public static AreaDao getAreadao() {
+        if (areadao == null) {
+            areadao = new AreaDao();
+        }
         return areadao;
     }
 
-    public ComisarioDao getComisariodao() {
-        if(comisariodao==null){
-         comisariodao = new ComisarioDao(Conexion.obtener());
+    public static ComisarioDao getComisariodao() {
+        if (comisariodao == null) {
+            comisariodao = new ComisarioDao();
         }
         return comisariodao;
     }
 
-    public ComplejoDao getComplejodao() {
-         if(complejodao ==null){
-           complejodao = new ComplejoDao(Conexion.obtener());
-       }
+    public static ComplejoDao getComplejodao() {
+        if (complejodao == null) {
+            complejodao = new ComplejoDao();
+        }
         return complejodao;
     }
 
-    public EventoDao getEventodao() {
-       if(eventodao ==null){
-         eventodao =new EventoDao(Conexion.obtener());
-       }
+    public static EventoDao getEventodao() {
+        if (eventodao == null) {
+            eventodao = new EventoDao();
+        }
         return eventodao;
     }
 
     public static MaterialDao getMateraildao() {
-        
-       if(materialdao ==null){
-          materialdao = new MaterialDao(Conexion.obtener());
-       }
-       
+
+        if (materialdao == null) {
+            materialdao = new MaterialDao();
+        }
         return materialdao;
     }
 
-    public PolideportivoDao getPolideportivo() {
-        
-      if(polideportivo ==null){
-          polideportivo = new PolideportivoDao(Conexion.obtener());
-      }
-      return polideportivo;
+    public static PolideportivoDao getPolideportivo() {
+        if (polideportivo == null) {
+            polideportivo = new PolideportivoDao();
+        }
+        return polideportivo;
     }
 
-    public SedeDao getSededao() {
-      if(sededao ==null){
-           sededao = new SedeDao(Conexion.obtener());
-       }
+    public static SedeDao getSededao() {
+        if (sededao == null) {
+            sededao = new SedeDao();
+        }
         return sededao;
     }
 
-    public  UnideportivoDao getUnideportivo() {
-       if(unideportivo==null){
-           unideportivo = new UnideportivoDao(Conexion.obtener());
-       }
-       return unideportivo;
+    public static UnideportivoDao getUnideportivo() {
+        if (unideportivo == null) {
+            unideportivo = new UnideportivoDao();
+        }
+        return unideportivo;
     }
-    
-    private AreaDao areadao;
-    private ComisarioDao comisariodao;
-    private ComplejoDao complejodao;
-    private EventoDao eventodao;
-    private static MaterialDao materialdao;
-    private PolideportivoDao polideportivo;
-    private SedeDao sededao;
-    private UnideportivoDao unideportivo;
- 
-    
-  
-    
-}
 
+    private static AreaDao areadao;
+    private static ComisarioDao comisariodao;
+    private static ComplejoDao complejodao;
+    private static EventoDao eventodao;
+    private static MaterialDao materialdao;
+    private static PolideportivoDao polideportivo;
+    private static SedeDao sededao;
+    private static UnideportivoDao unideportivo;
+
+}

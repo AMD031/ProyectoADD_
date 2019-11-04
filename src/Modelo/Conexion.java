@@ -40,14 +40,13 @@ public class Conexion {
                     this.password=password;	
                 }
 	}
-	
 
    private static Connection cnx = null;
-   public static Connection obtener() {
+   public static Connection obtener() throws SQLException {
 
            leeXml();
    
-      if (cnx == null) {
+      if (cnx == null || cnx.isClosed()) {
      
            try {
                Class.forName("com.mysql.jdbc.Driver");

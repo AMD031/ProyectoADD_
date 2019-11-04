@@ -40,7 +40,12 @@ public class Comisario {
         this.DNI = DNI;
         this.Nombre = Nombre;
     }
-     
+
+    public Comisario(String DNI, String Nombre) {
+        this.DNI = DNI;
+        this.Nombre = Nombre;
+    }
+    
     private int cod;
     private String DNI;
     private String Nombre;

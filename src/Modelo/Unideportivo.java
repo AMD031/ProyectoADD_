@@ -34,34 +34,63 @@ public class Unideportivo extends Complejo{
     public void setInfo(String info) {
         this.info = info;
     }
+    
+    public Evento getEvento() {
+        return evento;
+    }
 
-    public Unideportivo(int cod_complejo, String deporte, String info,
-            int cod, String localizacion, String jefe, int cod_sede) {
+    public void setEvento(Evento evento) {
+        this.evento = evento;
+    }
+    
+    
+    
+    
+    public Unideportivo(Evento evento,    int cod_complejo,
+                        String deporte,   String info, 
+                        int cod, String   localizacion,
+                        String jefe,      int cod_sede) {
         super(cod, localizacion, jefe, cod_sede);
-       
+        this.evento = evento;
         this.cod_complejo = cod_complejo;
         this.deporte = deporte;
         this.info = info;
     }
 
+    public Unideportivo(int cod_complejo, String deporte, String info, int cod, String localizacion, String jefe, int cod_sede) {
+        super(cod, localizacion, jefe, cod_sede);
+        this.cod_complejo = cod_complejo;
+        this.deporte = deporte;
+        this.info = info;
+    }
+
+    
+
+    public Unideportivo(int cod_complejo, String deporte, String info, String localizacion, String jefe, int cod_sede) {
+        super(localizacion, jefe, cod_sede);
+        this.cod_complejo = cod_complejo;
+        this.deporte = deporte;
+        this.info = info;
+    }
+
+    public Unideportivo(int cod) {
+        super(cod);
+        this.cod_complejo = cod;
+    }
  
+    private Evento evento; 
     private int cod_complejo;
     private String deporte;
     private String info;
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return "Unideportivo{" + "cod_complejo=" + cod_complejo + ", deporte=" + deporte + ", info=" + info + '}' ;
+    }
+
+
+
+  
     
     
 }

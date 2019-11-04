@@ -5,6 +5,7 @@
  */
 package DaosInterfaces;
 import Daos.DaoExepcion;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -13,8 +14,8 @@ import java.util.List;
  */
 public interface IDaos<T, K> {
     public boolean insertar(T a) throws DaoExepcion;
-    public void modificar(T a)throws DaoExepcion;
-    public int eliminar(T a)throws DaoExepcion;
+    public boolean modificar(HashMap<Object,Object> a, K id)throws DaoExepcion;
+    public int eliminar(K a)throws DaoExepcion;
     public List<T>ObtenerTodos()throws DaoExepcion;
     public T obtener(K cod)throws DaoExepcion;
 

@@ -55,6 +55,22 @@ public class Complejo {
      this.jefe = jefe;
      this.cod_sede = cod_sede;
     }
+
+    public Complejo(String localizacion, String jefe, int cod_sede) {
+        this.localizacion = localizacion;
+        this.jefe = jefe;
+        this.cod_sede = cod_sede;
+    
+    }
+
+    public Complejo(int cod) {
+        this.cod = cod;
+    }
+
+    @Override
+    public String toString() {
+        return "Complejo{" + "cod=" + cod + ", localizacion=" + localizacion + ", jefe=" + jefe + ", cod_sede=" + cod_sede + '}';
+    }
     
     
     

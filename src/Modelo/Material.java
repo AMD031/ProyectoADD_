@@ -33,6 +33,12 @@ public class Material {
         this.nombre = nombre;
     }
 
+    public Material(String nombre) {
+        this.nombre = nombre;
+    }
+    
+    
+
     @Override
     public String toString() {
         return "Material{" + "cod=" + cod + ", nombre=" + nombre + '}';

@@ -28,11 +28,11 @@ public class Sede {
         this.nombre = nombre;
     }
 
-    public double getPresupuesto() {
+    public float getPresupuesto() {
         return presupuesto;
     }
 
-    public void setPresupuesto(double presupuesto) {
+    public void setPresupuesto(float presupuesto) {
         this.presupuesto = presupuesto;
     }
 
@@ -45,15 +45,29 @@ public class Sede {
     }
     private int cod;
     private String nombre;
-    private double presupuesto;
+    private float presupuesto;
     List<Complejo> complejos;
 
-    public Sede(int cod, String nombre, double presupuesto, List<Complejo> complejos) {
+    public Sede(int cod, String nombre,  float presupuesto, List<Complejo> complejos) {
         this.cod = cod;
         this.nombre = nombre;
         this.presupuesto = presupuesto;
         this.complejos = complejos;
     }
+
+    public Sede(String nombre, float presupuesto, List<Complejo> complejos) {
+        this.nombre = nombre;
+        this.presupuesto = presupuesto;
+        this.complejos = complejos;
+    }
+
+    public Sede(int cod, String nombre, float presupuesto) {
+        this.cod = cod;
+        this.nombre = nombre;
+        this.presupuesto = presupuesto;
+    }
+    
+    
    
 
     
