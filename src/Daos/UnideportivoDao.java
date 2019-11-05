@@ -159,11 +159,8 @@ public class UnideportivoDao implements IDaoUnideportivo {
                 jefe = rs.getString("boss");
                 cod_sede = rs.getInt("id_headquarter");
                 localizacion = rs.getString("location");
-       
-                
                 unideportivo = new Unideportivo(id,deporte, info,idC, localizacion, jefe, cod_sede);
                 if (unideportivo != null) {
-                  
                     unideportivos.add(unideportivo);
                 }
             }
@@ -209,10 +206,53 @@ public class UnideportivoDao implements IDaoUnideportivo {
         }
         return unideportivo; 
     }
-
+    /**
+     *sportcomplex sx
+     *sportcenter sr 
+    */
+    
     @Override
     public boolean modificar(HashMap<Object, Object> a, Integer id) throws DaoExepcion {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         
+        boolean correcto = false;
+        int p = 1;
+        try {
+            List<String> clausulas = new ArrayList<>();
+            for (Object key : a.keySet()) {
+                clausulas.add(String.format("%s=?", key));
+            }
+            String consulta = String.format("UPDATE sportcomplex sx INNER JOIN sportcenter sr on sx.id = sr.id_sportcomplex"
+                    + " SET %s  WHERE sx.id = ?;",
+                     StringUtils.join(clausulas, ","));
+            
+ 
+            PreparedStatement ps = Conexion.obtener().prepareStatement(consulta);
+            for (Object key : a.keySet()) {
+
+                if (a.get(key) instanceof String) {
+                    ps.setString(p++, (String) a.get(key));
+                }
+                if (a.get(key) instanceof Integer) {
+                    ps.setInt(p++, (Integer) a.get(key));
+                }
+            }
+ 
+            ps.setInt(p,id);
+            
+            if (ps.executeUpdate() == 0) {
+                throw new DaoExepcion("No se ha podido modificar el registro");
+            } else {
+                correcto = true;
+            }
+
+        } catch (Exception ex) {
+            throw new DaoExepcion(ex);
+        } finally {
+            Conexion.cerrar();
+        }
+
+        return correcto;
+        
     }
 
 }

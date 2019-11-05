@@ -51,9 +51,9 @@ public class Conexion {
            try {
                Class.forName("com.mysql.jdbc.Driver");
       
-            cnx =  DriverManager.getConnection("jdbc:mysql://"+Conexion.host+"/"+Conexion.bbdd+
-                    "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&user="
-                    +Conexion.login+"&password="+Conexion.password);
+            cnx =  DriverManager.getConnection("jdbc:mysql://"+ Conexion.host+"/"+ Conexion.bbdd+
+            "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Madrid&user="+
+            Conexion.login+"&password="+ Conexion.password);
       
                  } catch (ClassNotFoundException ex) {
                Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);

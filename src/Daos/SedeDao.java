@@ -3,8 +3,6 @@ package Daos;
 import DaosInterfaces.IDaosSede;
 import Modelo.Conexion;
 import Modelo.Sede;
-import com.sun.istack.internal.FinalArrayList;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,6 +26,8 @@ public class SedeDao implements IDaosSede {
         PreparedStatement ps = null;
         try {
             ps = Conexion.obtener().prepareStatement(insertar, PreparedStatement.RETURN_GENERATED_KEYS);
+            ps.setString(1, a.getNombre());
+            ps.setFloat(2, a.getPresupuesto());
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             if (!rs.next()) {
@@ -149,9 +149,7 @@ public class SedeDao implements IDaosSede {
                     ps.setDouble(p++, (Double) a.get(key));
                 }
             }
- 
             ps.setInt(p,id);
-            
             if (ps.executeUpdate() == 0) {
                 throw new DaoExepcion("No se ha podido modificar el registro");
             } else {

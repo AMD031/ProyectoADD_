@@ -1,13 +1,72 @@
-
 package Modelo;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 /**
  *
  * @author Antonio Martinez Diaz
  */
 public class Evento {
+
+
+    private int cod;
+    private String nombre;
+    private int cod_complejo;
+    private Timestamp fecha;
+    private int cod_area;
+    List<Comisario> comisarios;
+    List<Material> Materiales;
+
+    public Evento(int cod, String nombre, int cod_complejo, Timestamp fecha, int cod_area, List<Comisario> comisarios, List<Material> Materiales) {
+        this.cod = cod;
+        this.nombre = nombre;
+        this.cod_complejo = cod_complejo;
+        this.fecha = fecha;
+        this.cod_area = cod_area;
+        this.comisarios = comisarios;
+        this.Materiales = Materiales;
+    }
+
+    public Evento(String nombre, int cod_complejo, Timestamp fecha, int cod_area, List<Comisario> comisarios, List<Material> Materiales) {
+        this.nombre = nombre;
+        this.cod_complejo = cod_complejo;
+        this.fecha = fecha;
+        this.cod_area = cod_area;
+        this.comisarios = comisarios;
+        this.Materiales = Materiales;
+    }
+
+    public Evento(String nombre, int cod_complejo, Timestamp fecha, int cod_area) {
+        this.nombre = nombre;
+        this.cod_complejo = cod_complejo;
+        this.fecha = fecha;
+        this.cod_area = cod_area;
+    }
+
+    
+    
+
+    
+    
+
+    
+    public static Timestamp stringToTimestamp(String str) throws Exception{
+         java.util.Date f =null;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("MM.dd.yyyy hh:ss");
+             f =   sdf.parse(str);
+        } catch (ParseException ex) {
+          throw  new Exception("Error de conversion: ");
+        }
+        
+        return new Timestamp(f.getTime());
+    }
 
     public int getCod() {
         return cod;
@@ -33,12 +92,12 @@ public class Evento {
         this.cod_complejo = cod_complejo;
     }
 
-    public String getFecha() {
-        return Fecha;
+    public Timestamp getFecha() {
+        return fecha;
     }
 
-    public void setFecha(String Fecha) {
-        this.Fecha = Fecha;
+    public void setFecha(Timestamp fecha) {
+        this.fecha = fecha;
     }
 
     public int getCod_area() {
@@ -65,39 +124,15 @@ public class Evento {
         this.Materiales = Materiales;
     }
 
-    public Evento(int cod, String nombre, int cod_complejo, String Fecha, int cod_area, List<Comisario> comisarios, List<Material> Materiales) {
-        this.cod = cod;
-        this.nombre = nombre;
-        this.cod_complejo = cod_complejo;
-        this.Fecha = Fecha;
-        this.cod_area = cod_area;
-        this.comisarios = comisarios;
-        this.Materiales = Materiales;
+    @Override
+    public String toString() {
+        return "Evento{" + "cod=" + cod + ", nombre=" + nombre + ", cod_complejo=" + cod_complejo + ", fecha=" + fecha + ", cod_area=" + cod_area + '}';
     }
     
-    private int cod;
-    private String nombre;
-    private int cod_complejo;
-    private String Fecha;
-    private int cod_area;
-    List<Comisario>comisarios;
-    List<Material>Materiales;
 
-    public Evento(int cod, String nombre, int cod_complejo, String Fecha, int cod_area, List<Comisario> comisarios) {
-        this.cod = cod;
-        this.nombre = nombre;
-        this.cod_complejo = cod_complejo;
-        this.Fecha = Fecha;
-        this.cod_area = cod_area;
-        this.comisarios = comisarios;
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+ 
+
+
+
 }

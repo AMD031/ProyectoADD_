@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -145,7 +143,7 @@ public class AreaDao implements IDaoArea {
             
             String consulta = String.format("UPDATE area SET %s WHERE id=?",
                      StringUtils.join(clausulas, ","));
-
+            
             PreparedStatement ps = Conexion.obtener().prepareStatement(consulta);
             for (Object key : a.keySet()) {
 
@@ -154,7 +152,6 @@ public class AreaDao implements IDaoArea {
                 }
 
                 if (a.get(key) instanceof Integer) {
-                  
                     ps.setInt(p++, (Integer) a.get(key));
                 }
             }

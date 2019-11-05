@@ -145,7 +145,6 @@ public class MaterialDao implements IDaoMaterial{
                     ps.setString(p++, (String) a.get(key));
                 }
             }
- 
             ps.setInt(p,id);
             
             if (ps.executeUpdate() == 0) {

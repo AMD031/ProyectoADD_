@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Antonio Martinez Diaz
@@ -190,9 +191,52 @@ public class PolideportivoDao implements IDaoPolideportivo {
         return polideportivo;
     }
 
+       /**
+     *sportcomplex sx
+     *multisportcenter mr 
+    */
     @Override
     public boolean modificar(HashMap<Object, Object> a, Integer id) throws DaoExepcion {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      boolean correcto = false;
+        int p = 1;
+        try {
+            List<String> clausulas = new ArrayList<>();
+            for (Object key : a.keySet()) {
+                clausulas.add(String.format("%s=?", key));
+            }
+            String consulta = String.format("UPDATE sportcomplex sx INNER JOIN multisportcenter mr on sx.id = mr.id_sportcomplex"
+                    + " SET %s  WHERE sx.id = ?;",
+                     StringUtils.join(clausulas, ","));
+            
+     
+            PreparedStatement ps = Conexion.obtener().prepareStatement(consulta);
+            for (Object key : a.keySet()) {
+
+                if (a.get(key) instanceof String) {
+                    ps.setString(p++, (String) a.get(key));
+                }
+                if (a.get(key) instanceof Integer) {
+                  
+                    ps.setInt(p++, (Integer) a.get(key));
+                }
+            }
+ 
+            ps.setInt(p,id);
+            
+            if (ps.executeUpdate() == 0) {
+                throw new DaoExepcion("No se ha podido modificar el registro");
+            } else {
+                correcto = true;
+            }
+
+        } catch (Exception ex) {
+            throw new DaoExepcion(ex);
+        } finally {
+            Conexion.cerrar();
+        }
+
+        return correcto;
+        
     }
 
 }

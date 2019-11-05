@@ -6,9 +6,12 @@
 package Vista;
 
 import Daos.DaoExepcion;
-import Modelo.Comisario;
+import Modelo.Evento;
 import Modelo.Polideportivo;
-import Modelo.Unideportivo;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,10 +25,7 @@ import java.util.logging.Logger;
 public class Main {
  
     
-    public static void main(String[] args) {
- 
-
-           
+    public static void main(String[] args) throws ParseException, Exception {
         try {
             //Daos.ManagerDao.getUnideportivo().modificar(null);
             
@@ -42,11 +42,32 @@ public class Main {
         //  Comisario a = new Comisario("1000000T", "SeñorX");
           //Daos.ManagerDao.getComisariodao().insertar(a);
             
-            HashMap<Object, Object> dato = new HashMap<>();
-            dato.put("budget", 1000000.00);
-            Daos.ManagerDao.getSededao().modificar(dato, 1);
+           //HashMap<Object, Object> dato = new HashMap<>();
+            //dato.put("mr.information", "barrio peligroso");  
             
+         //Daos.ManagerDao.getPolideportivo().modificar(dato,1); 
+           // Sede a = new Sede("Madrid",  1500000);
+           // Daos.ManagerDao.getSededao().insertar(a);
+          
+                                             //yyyy-MM-dd hh:mm:ss.SSS
+            //Timestamp(int year, int month, int date, int hour, int minute, int second, int nano)                                 
             
+         
+
+        //MM.dd.yyyy hh:ss
+            //Evento a = new Evento("tiro con arco", 1, Evento.stringToTimestamp("13.10.1999 10:90"), 1);
+           // Daos.ManagerDao.getEventodao().insertar(a);
+           HashMap<Object, Object> dato = new HashMap<>();
+           dato.put("name", "pertiga");
+           dato.put("date", Evento.stringToTimestamp("10.10.1999 20:40"));
+           
+          
+           Daos.ManagerDao.getEventodao().modificar(dato, 2);
+            for (Modelo.Evento e : Daos.ManagerDao.getEventodao().ObtenerTodos() ) {
+                System.out.println(e);
+            }
+           
+           
             
             
             

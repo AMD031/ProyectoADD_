@@ -66,6 +66,11 @@ public class Sede {
         this.nombre = nombre;
         this.presupuesto = presupuesto;
     }
+
+    public Sede(String nombre, float presupuesto) {
+        this.nombre = nombre;
+        this.presupuesto = presupuesto;
+    }
     
     
    
