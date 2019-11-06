@@ -26,7 +26,7 @@ public class Main {
  
     
     public static void main(String[] args) throws ParseException, Exception {
-        try {
+     //   try {
             //Daos.ManagerDao.getUnideportivo().modificar(null);
             
            // Polideportivo a = new Polideportivo("Existe", "en algun lugar", "diablo",2);
@@ -57,15 +57,17 @@ public class Main {
         //MM.dd.yyyy hh:ss
             //Evento a = new Evento("tiro con arco", 1, Evento.stringToTimestamp("13.10.1999 10:90"), 1);
            // Daos.ManagerDao.getEventodao().insertar(a);
-           HashMap<Object, Object> dato = new HashMap<>();
-           dato.put("name", "pertiga");
-           dato.put("date", Evento.stringToTimestamp("10.10.1999 20:40"));
+           //HashMap<Object, Object> dato = new HashMap<>();
+           //dato.put("name", "pertiga");
+           //dato.put("date", Evento.stringToTimestamp("10.10.1999 20:40"));
            
           
-           Daos.ManagerDao.getEventodao().modificar(dato, 2);
-            for (Modelo.Evento e : Daos.ManagerDao.getEventodao().ObtenerTodos() ) {
-                System.out.println(e);
-            }
+          // Daos.ManagerDao.getEventodao().modificar(dato, 2);
+          
+          
+            //for (Modelo.Evento e : Daos.ManagerDao.getEventodao().ObtenerTodos() ) {
+             //   System.out.println(e);
+           // }
            
            
             
@@ -92,10 +94,10 @@ public class Main {
             
             
             
-            // Menu menu =  Menu.getInstance();
-        } catch (DaoExepcion ex) {
+             Menu menu =  Menu.getInstance();
+     /*   } catch (DaoExepcion ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
       
       
  

@@ -5,6 +5,8 @@
  */
 package Vista;
 
+import Controlador.Controlador;
+import Modelo.Sede;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -62,6 +64,18 @@ public class Menu {
             System.out.println(op);
         }
     }
+    public static void imprimeContenido(List<Object> contenedor){
+        
+        for (Object continido : contenedor) {
+            if(continido instanceof Sede){
+                System.out.println((Sede)continido);
+            }
+            
+            
+        }
+        
+    }
+    
     
     private void imprime(String txt){
         System.out.println(txt);
@@ -80,8 +94,8 @@ public class Menu {
                 break;
 
             case 1:
-                  imprimeMenu(creaSubmenu("sede"));
-                
+                 imprimeMenu(creaSubmenu("sede"));
+                 Controlador.mostrar("sede");
                 
                 break;
 

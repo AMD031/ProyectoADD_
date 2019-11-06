@@ -12,7 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -94,7 +93,8 @@ public class EventoDao implements IDaoEvento {
                 cod_complejo = rs.getInt("id_sportcomplex");
                 cod_area = rs.getInt("id_area");
                 fecha = rs.getTimestamp("date");
-                evento = new Evento(nombre,cod_complejo,fecha,cod_area);
+                //(int cod, String nombre, int cod_complejo, Timestamp fecha, int cod_area)
+                evento = new Evento(id,nombre,cod_complejo,fecha,cod_area);
          
                 if (evento != null) {
                     eventos.add(evento);

@@ -4,8 +4,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 
 /**
@@ -33,14 +32,14 @@ public class Evento {
         this.Materiales = Materiales;
     }
 
-    public Evento(String nombre, int cod_complejo, Timestamp fecha, int cod_area, List<Comisario> comisarios, List<Material> Materiales) {
+    public Evento(int cod, String nombre, int cod_complejo, Timestamp fecha, int cod_area) {
+        this.cod = cod;
         this.nombre = nombre;
         this.cod_complejo = cod_complejo;
         this.fecha = fecha;
         this.cod_area = cod_area;
-        this.comisarios = comisarios;
-        this.Materiales = Materiales;
     }
+
 
     public Evento(String nombre, int cod_complejo, Timestamp fecha, int cod_area) {
         this.nombre = nombre;
