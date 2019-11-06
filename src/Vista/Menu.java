@@ -6,11 +6,14 @@
 package Vista;
 
 import Controlador.Controlador;
+import Daos.DaoExepcion;
 import Modelo.Sede;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -55,7 +58,7 @@ public class Menu {
         Submenu.add("2 Actualizar " + txt);
         Submenu.add("3 Borrar " + txt);
         Submenu.add("4 Listar " + txt);
-        Submenu.add("6 Listar todos ");
+        Submenu.add("5 Listar todos ");
         return Submenu;
     }
 
@@ -64,17 +67,18 @@ public class Menu {
             System.out.println(op);
         }
     }
-    public static void imprimeContenido(List<Object> contenedor){
+    
+
+    public static void imprimeContenido(List<? extends Object> contenedor){
         
-        for (Object continido : contenedor) {
-            if(continido instanceof Sede){
-                System.out.println((Sede)continido);
-            }
-            
-            
+        for (Object contenido : contenedor) {
+            System.out.println(contenido);
+           
         }
-        
     }
+    
+    
+    
     
     
     private void imprime(String txt){
@@ -82,10 +86,11 @@ public class Menu {
     }
 
     private void iniciaMenu(Scanner sc) {
+         int op  =0;
         imprimeMenu(Principal);
         sc = new Scanner(System.in);
         try{
-        int op = sc.nextInt();
+        op = sc.nextInt();
 
         switch (op) {
             case 0:
@@ -94,37 +99,55 @@ public class Menu {
                 break;
 
             case 1:
-                 imprimeMenu(creaSubmenu("sede"));
-                 Controlador.mostrar("sede");
-                
+                 MenuSede(sc);
                 break;
-
             case 2:
+                  imprimeMenu(creaSubmenu("Complejos"));
+                
 
                 break;
 
             case 3:
-
+                imprimeMenu(creaSubmenu("Polideportivo"));
+                
+                
                 break;
 
             case 4:
+                imprimeMenu(creaSubmenu("uniderpotivo"));
+                
+                
 
                 break;
 
             case 5:
+                imprimeMenu(creaSubmenu("Area"));
+                
 
                 break;
 
             case 6:
+                imprimeMenu(creaSubmenu("Evento"));
+                
+                
+                
+                
 
                 break;
 
-            case 7:
+            case 7: 
+                imprimeMenu(creaSubmenu("Comisario"));
 
+                
+                
                 break;
 
             case 8:
+                imprimeMenu(creaSubmenu("Comisario"));
 
+                
+                
+                
                 break;
 
             case 9:
@@ -138,10 +161,63 @@ public class Menu {
         
         }catch(InputMismatchException e){
             imprime("Error de Formato"+e);
-        }
+        } 
 
     }
 
+    
+    
+    
+    
+     private void MenuSede(Scanner sc){
+       
+        int op =0;
+        try {
+            do{
+                
+       
+            imprimeMenu(creaSubmenu("sede"));
+            op = sc.nextInt();
+            switch(op){
+                
+                case 4: 
+                    Controlador.mostrar("sede");
+                break;   
+                
+            }
+          }while(op !=0);
+            
+            
+        } catch (DaoExepcion ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(InputMismatchException ex){
+            imprime("No se permite letras.");
+        }
+        
+        
+        
+        
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     

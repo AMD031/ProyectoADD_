@@ -71,6 +71,11 @@ public class Sede {
         this.nombre = nombre;
         this.presupuesto = presupuesto;
     }
+
+    @Override
+    public String toString() {
+        return "Sede{" + "cod=" + cod + ", nombre=" + nombre + ", presupuesto=" + presupuesto + '}';
+    }
     
     
    

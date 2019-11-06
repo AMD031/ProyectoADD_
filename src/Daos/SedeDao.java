@@ -66,7 +66,7 @@ public class SedeDao implements IDaosSede {
     public List<Sede> ObtenerTodos() throws DaoExepcion {
         ArrayList<Sede> sedes = null;
         Sede sede = null;
-        String consulta = "SELECT * FROM equipment";
+        String consulta = "SELECT * FROM headquarter";
         try {
             PreparedStatement ps = Conexion.obtener().prepareStatement(consulta);
             ResultSet rs = ps.executeQuery();

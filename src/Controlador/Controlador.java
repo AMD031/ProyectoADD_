@@ -6,10 +6,7 @@
 package Controlador;
 
 import Daos.DaoExepcion;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  *
@@ -18,12 +15,12 @@ import java.util.logging.Logger;
 public class Controlador {
     
     //sede 
-    public static void mostrar(String str){
+    public static void mostrar(String str) throws DaoExepcion {
         
         
         if(str.equals("sede")){
-        
             
+            Vista.Menu.imprimeContenido(Daos.ManagerDao.getSededao().ObtenerTodos());
             
         }
   
