@@ -19,10 +19,38 @@ public class Controlador {
         
         
         if(str.equals("sede")){
-            
             Vista.Menu.imprimeContenido(Daos.ManagerDao.getSededao().ObtenerTodos());
-            
         }
+        
+        if(str.equals("unideportivo")){
+             Vista.Menu.imprimeContenido(Daos.ManagerDao.getUnideportivo().ObtenerTodos());
+        }
+        
+        
+           
+        if(str.equals("polideportivo")){
+             Vista.Menu.imprimeContenido(Daos.ManagerDao.getPolideportivo().ObtenerTodos());
+        }
+ 
+        if(str.equals("area")){
+             Vista.Menu.imprimeContenido(Daos.ManagerDao.getAreadao().ObtenerTodos());
+        }
+        
+        if(str.equals("evento")){
+             Vista.Menu.imprimeContenido(Daos.ManagerDao.getAreadao().ObtenerTodos());
+        }
+        
+         if(str.equals("comisario")){
+             Vista.Menu.imprimeContenido(Daos.ManagerDao.getComisariodao().ObtenerTodos());
+        }
+        
+         
+         
+         
+        
+        
+        
+        
   
     }
     

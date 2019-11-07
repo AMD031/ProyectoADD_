@@ -7,7 +7,6 @@ package Vista;
 
 import Controlador.Controlador;
 import Daos.DaoExepcion;
-import Modelo.Sede;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -42,13 +41,12 @@ public class Menu {
     private void creaPrinciapal() {
         Principal = new ArrayList<>();
         Principal.add("1 Menu sede");
-        Principal.add("2 Menu complejos");
+        Principal.add("2 Menu unidiportivo");
         Principal.add("3 Menu polideportivo");
-        Principal.add("4 Menu unidiportivo");
-        Principal.add("6 Menu area");
-        Principal.add("7 Menu evento");
-        Principal.add("8 Menu comisario");
-        Principal.add("9 Menu material");
+        Principal.add("4 Menu area");
+        Principal.add("5 Menu evento");
+        Principal.add("6 Menu comisario");
+        Principal.add("7 Menu material");
         Principal.add("0 salir");
     }
 
@@ -77,10 +75,6 @@ public class Menu {
         }
     }
     
-    
-    
-    
-    
     private void imprime(String txt){
         System.out.println(txt);
     }
@@ -93,64 +87,49 @@ public class Menu {
         op = sc.nextInt();
 
         switch (op) {
-            case 0:
-              
-
-                break;
-
             case 1:
                  MenuSede(sc);
                 break;
-            case 2:
-                  imprimeMenu(creaSubmenu("Complejos"));
-                
+ 
 
+            case 2:
+                MenuUnideportivo(sc);
+                
+                
                 break;
 
             case 3:
-                imprimeMenu(creaSubmenu("Polideportivo"));
+                MenuPolideportivo(sc);
                 
                 
+
                 break;
 
             case 4:
-                imprimeMenu(creaSubmenu("uniderpotivo"));
-                
+                MenuArea(sc);
                 
 
                 break;
-
             case 5:
-                imprimeMenu(creaSubmenu("Area"));
-                
-
+                MenuEvento(sc);
                 break;
 
-            case 6:
-                imprimeMenu(creaSubmenu("Evento"));
-                
-                
-                
-                
+            case 6: 
+                MenuComisario(sc);
 
+                
+                
                 break;
 
-            case 7: 
+            case 7:
                 imprimeMenu(creaSubmenu("Comisario"));
 
+                
                 
                 
                 break;
 
             case 8:
-                imprimeMenu(creaSubmenu("Comisario"));
-
-                
-                
-                
-                break;
-
-            case 9:
               imprimeMenu(creaSubmenu("Material"));
               
               
@@ -174,8 +153,6 @@ public class Menu {
         int op =0;
         try {
             do{
-                
-       
             imprimeMenu(creaSubmenu("sede"));
             op = sc.nextInt();
             switch(op){
@@ -202,16 +179,134 @@ public class Menu {
     
     
     
+    private void MenuUnideportivo(Scanner sc){
+       
+        int op =0;
+        try {
+            do{
+                
+       
+            imprimeMenu(creaSubmenu("Unideportivo"));
+            op = sc.nextInt();
+            switch(op){
+                
+                case 4: 
+                    Controlador.mostrar("unideportivo");
+                break;   
+                
+            }
+          }while(op !=0);
+            
+            
+        } catch (DaoExepcion ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(InputMismatchException ex){
+            imprime("No se permite letras.");
+        }
+        
+     
+    }
+    
+    
+       private void MenuPolideportivo(Scanner sc){
+       
+        int op =0;
+        try {
+            do{
+                
+       
+            imprimeMenu(creaSubmenu("Polideportivo"));
+            op = sc.nextInt();
+            switch(op){
+                
+                case 4: 
+                    Controlador.mostrar("polideportivo");
+                break;   
+                
+            }
+          }while(op !=0);
+        } catch (DaoExepcion ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(InputMismatchException ex){
+            imprime("No se permite letras.");
+        }
+        
+     
+    }
     
     
     
+        
+       private void MenuArea(Scanner sc){
+       
+        int op =0;
+        try {
+            do{
+            imprimeMenu(creaSubmenu("Area"));
+            op = sc.nextInt();
+            switch(op){
+                
+                case 4: 
+                    Controlador.mostrar("area");
+                break;   
+                
+            }
+          }while(op !=0);
+        } catch (DaoExepcion ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(InputMismatchException ex){
+            imprime("No se permite letras.");
+        }
+        
+     
+    }
+    
+    
+       private void MenuEvento(Scanner sc){
+         int op =0;
+        try {
+            do{
+            imprimeMenu(creaSubmenu("Evento"));
+            op = sc.nextInt();
+            switch(op){
+                
+                case 4: 
+                    Controlador.mostrar("evento");
+                break;   
+                
+            }
+          }while(op !=0);
+        } catch (DaoExepcion ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(InputMismatchException ex){
+            imprime("No se permite letras.");
+        }
+        
+     
+    }
     
     
     
-    
-    
-    
-    
+        
+       private void MenuComisario(Scanner sc){
+        int op =0;
+        try {
+            do{
+            imprimeMenu(creaSubmenu("Comisario"));
+            op = sc.nextInt();
+            switch(op){
+                
+                case 4: 
+                    Controlador.mostrar("comisario");
+                break;   
+            }
+          }while(op !=0);
+        } catch (DaoExepcion ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(InputMismatchException ex){
+            imprime("No se permite letras.");
+        }
+    }
     
     
     

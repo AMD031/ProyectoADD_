@@ -72,7 +72,7 @@ public class ComisarioDao implements IDaoComisario {
     public List<Comisario> ObtenerTodos() throws DaoExepcion {
         List<Comisario> comisarios = null;
         Comisario comisario = null;
-        String consulta = "SELECT * FROM equipment";
+        String consulta = "SELECT * FROM commissioner";
         try {
             PreparedStatement ps = Conexion.obtener().prepareStatement(consulta);
             ResultSet rs = ps.executeQuery();
@@ -104,7 +104,7 @@ public class ComisarioDao implements IDaoComisario {
     public Comisario obtener(Integer cod) throws DaoExepcion {
 
         Comisario comisario = null;
-        String consulta = "SELECT * FROM equipment";
+        String consulta = "SELECT * FROM commissioner where id =?";
         try {
             PreparedStatement ps = Conexion.obtener().prepareStatement(consulta);
             ResultSet rs = ps.executeQuery();
