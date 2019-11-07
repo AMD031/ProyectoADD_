@@ -73,6 +73,14 @@ public class Unideportivo extends Complejo{
         this.info = info;
     }
 
+    public Unideportivo(String deporte, String info, String localizacion, String jefe, int cod_sede) {
+        super(localizacion, jefe, cod_sede);
+        this.deporte = deporte;
+        this.info = info;
+    }
+    
+    
+
     public Unideportivo(int cod) {
         super(cod);
         this.cod_complejo = cod;

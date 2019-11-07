@@ -19,6 +19,12 @@ public class Area {
         this.deporte = deporte;
     }
 
+    public Area(int cod_poli, String localizacion, String deporte) {
+        this.cod_poli = cod_poli;
+        this.localizacion = localizacion;
+        this.deporte = deporte;
+    }
+    
     public int getCod() {
         return cod;
     }

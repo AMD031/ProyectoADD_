@@ -55,9 +55,8 @@ public class UnideportivoDao implements IDaoUnideportivo {
 
         } catch (SQLException ex) {
             try {
-
                 Conexion.obtener().rollback();
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                throw new DaoExepcion("Error sql" + ex);
             } catch (SQLException e) {
                 throw new DaoExepcion("Error sql" + e);
             }

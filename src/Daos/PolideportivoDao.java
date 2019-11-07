@@ -57,7 +57,7 @@ public class PolideportivoDao implements IDaoPolideportivo {
             try {
 
                 Conexion.obtener().rollback();
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                throw new DaoExepcion("Error sql" + ex);
             } catch (SQLException e) {
                 throw new DaoExepcion("Error sql" + e);
             }
@@ -207,14 +207,14 @@ public class PolideportivoDao implements IDaoPolideportivo {
             String consulta = String.format("UPDATE sportcomplex sx INNER JOIN multisportcenter mr on sx.id = mr.id_sportcomplex"
                     + " SET %s  WHERE sx.id = ?;",
                      StringUtils.join(clausulas, ","));
-            
-     
+  
             PreparedStatement ps = Conexion.obtener().prepareStatement(consulta);
             for (Object key : a.keySet()) {
 
                 if (a.get(key) instanceof String) {
                     ps.setString(p++, (String) a.get(key));
                 }
+                
                 if (a.get(key) instanceof Integer) {
                   
                     ps.setInt(p++, (Integer) a.get(key));
