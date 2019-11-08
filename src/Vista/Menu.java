@@ -8,9 +8,13 @@ package Vista;
 import Controlador.Controlador;
 import Daos.DaoExepcion;
 import Modelo.Area;
+import Modelo.Comisario;
+import Modelo.Evento;
+import Modelo.Material;
 import Modelo.Polideportivo;
 import Modelo.Sede;
 import Modelo.Unideportivo;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -67,7 +71,7 @@ public class Menu {
         Submenu.add("2 Actualizar " + txt);
         Submenu.add("3 Borrar " + txt);
         Submenu.add("4 Listar todos ");
-        Submenu.add("5 Listar " + txt);
+        Submenu.add("5 Listar un elemento por codigo" + txt);
         Submenu.add("0 Salir");
 
         return Submenu;
@@ -152,6 +156,7 @@ public class Menu {
                 op = sc.nextInt();
                 String nombre;
                 Float presupuesto;
+                int codE =0;
 
                 switch (op) {
 
@@ -172,8 +177,11 @@ public class Menu {
                     case 2:
 
                         break;
-
+     
                     case 3:
+                      imprime("introduce codigo");
+                      codE  = sc.nextInt();                      
+                      Controlador.borrar("sede", codE);
 
                         break;
 
@@ -208,6 +216,7 @@ public class Menu {
         String localizacion;
         String jefe;
         int cod_sede;
+        int codE =0;
         
         
         int op = 0;
@@ -235,6 +244,14 @@ public class Menu {
                         Controlador.insertar("unideportivo", a);
                         break;
         
+                       case 3:
+                      imprime("introduce codigo");
+                      codE  = sc.nextInt();                      
+                      Controlador.borrar("unideportivo", codE);
+
+                        break; 
+                        
+                        
                     case 4:
                         Controlador.mostrar("unideportivo");
                         break;
@@ -259,12 +276,11 @@ public class Menu {
     private static void MenuPolideportivo(Scanner sc) {
 
         int op = 0;
-        String deporte;
         String info;
         String localizacion;
         String jefe;
         int cod_sede;
-        
+        int codE =0;
         try {
             do {
 
@@ -286,6 +302,14 @@ public class Menu {
                         Polideportivo a = new Polideportivo(info, localizacion, jefe, cod_sede);
                         Controlador.insertar("polideportivo", a);
                       break;
+                      
+                               case 3:
+                      imprime("introduce codigo");
+                      codE  = sc.nextInt();                      
+                      Controlador.borrar("polideportivo", codE);
+
+                        break;
+                      
                     case 4:
                         Controlador.mostrar("polideportivo");
                         break;
@@ -311,6 +335,7 @@ public class Menu {
         int cod_poli; 
         String localizacion;
         String deporte;
+        int codE =0;
         try {
             do {
                 imprimeMenu(creaSubmenu("Area"));
@@ -322,17 +347,19 @@ public class Menu {
                     Menu.imprime("Introduce localizacion");
                     sc.nextLine();
                     localizacion = sc.nextLine();
-           
                     Menu.imprime("Introduce deporte");
                     deporte = sc.next();   
-                        
-                        
-                        
+    
                     Area a = new Area(cod_poli, localizacion, deporte);
                     Controlador.insertar("area", a);
                     break;
                     
-                    
+                                  case 3:
+                      imprime("introduce codigo");
+                      codE  = sc.nextInt();                      
+                      Controlador.borrar("area", codE);
+
+                        break;
                     
 
                     case 4:
@@ -357,12 +384,41 @@ public class Menu {
 
     private static void MenuEvento(Scanner sc) {
         int op = 0;
+        String nombre;
+        int cod_complejo; 
+        String fecha;
+        int cod_area;
+        int codE =0;
+        
+        
         try {
             do {
                 imprimeMenu(creaSubmenu("Evento"));
                 op = sc.nextInt();
                 switch (op) {
-
+                    case 1:
+                        Menu.imprime("Introduce nombre");
+                        nombre = sc.next();
+                        Menu.imprime("Introduce codigo del complejo");
+                        cod_complejo = sc.nextInt();
+                        Menu.imprime("Introduce fecha");
+                        fecha = sc.next();
+                        Menu.imprime("Intoduce codigo area");
+                        cod_area = sc.nextInt();
+     
+                        Evento a = new Evento(nombre, cod_complejo,  Evento.stringToTimestamp(fecha), cod_area);
+                        Controlador.insertar("evento", a);
+                        
+                        break;
+                    
+                     case 3:
+                      imprime("introduce codigo");
+                      codE  = sc.nextInt();                      
+                      Controlador.borrar("evento", codE);
+                     break;     
+                        
+                    
+                    
                     case 4:
                         Controlador.mostrar("evento");
                         break;
@@ -377,6 +433,8 @@ public class Menu {
 
         } catch (DaoExepcion ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
            iniciaMenu(Menu.sc);
         }
@@ -385,12 +443,30 @@ public class Menu {
 
     private static void MenuComisario(Scanner sc) {
         int op = 0;
+         String DNI;
+         String Nombre;
+         int codE =0;
         try {
             do {
                 imprimeMenu(creaSubmenu("Comisario"));
                 op = sc.nextInt();
                 switch (op) {
-
+                    case 1:
+                     Menu.imprime("Introduce Dni");
+                     DNI = sc.next();
+                     Menu.imprime("Introduce nombre");
+                     Nombre = sc.next();
+                     
+                     Comisario a = new Comisario(DNI, Nombre);
+                     Controlador.insertar("comisario", a);
+                    break;
+                    
+                            case 3:
+                      imprime("introduce codigo");
+                      codE  = sc.nextInt();                      
+                      Controlador.borrar("comisario", codE);
+                     break;     
+                    
                     case 4:
                         Controlador.mostrar("comisario");
                         break;
@@ -411,11 +487,27 @@ public class Menu {
 
     private static void MenuMaterial(Scanner sc) {
         int op = 0;
+        int codE =0;
+        String nombre;
         try {
             do {
                 imprimeMenu(creaSubmenu("Material"));
                 op = sc.nextInt();
                 switch (op) {
+                    
+                    case 1:
+                        Menu.imprime("Introduce nomber");
+                        nombre = sc.next();
+                        Material a = new Material(nombre);
+                        Controlador.insertar("material", a);
+                      break;
+       
+                    case 3:
+                        imprime("introduce codigo");
+                        codE = sc.nextInt();
+                        Controlador.borrar("material", codE);
+                        break;
+
 
                     case 4:
                         Controlador.mostrar("material");

@@ -105,14 +105,15 @@ public class Controlador {
             }
 
         }
-        if (str.equals("evento")) {
+        if (str.equals("comisario")) {
             try {
-                Daos.ManagerDao.getEventodao().insertar((Evento) a);
+                Daos.ManagerDao.getComisariodao().insertar((Comisario) a);
             } catch (DaoExepcion ex) {
                 Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
+        
         if (str.equals("material")) {
             try {
                 Daos.ManagerDao.getMateraildao().insertar((Material) a);
@@ -124,8 +125,88 @@ public class Controlador {
                
     } //fin metodo 
 
+    public static void borrar(String str,int cod){
+ 
+        if(str.equals("sede")){
+            
+            try {
+                Daos.ManagerDao.getSededao().eliminar(cod);
+            } catch (DaoExepcion ex) {
+                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        
+        if(str.equals("unideportivo")){
+             try {
+                Daos.ManagerDao.getUnideportivo().eliminar(cod);
+            } catch (DaoExepcion ex) {
+                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        
+        if(str.equals("polideportivo")){
+             try {
+                Daos.ManagerDao.getPolideportivo().eliminar(cod);
+            } catch (DaoExepcion ex) {
+                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+        }
+        
+        if(str.equals("area")){
+             try {
+                Daos.ManagerDao.getAreadao().eliminar(cod);
+            } catch (DaoExepcion ex) {
+                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+        }
+        
+        if(str.equals("evento")){
+            
+             try {
+                Daos.ManagerDao.getEventodao().eliminar(cod);
+            } catch (DaoExepcion ex) {
+                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+   
+        if(str.equals("comisario")){
+             try {
+                Daos.ManagerDao.getComisariodao().eliminar(cod);
+            } catch (DaoExepcion ex) {
+                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+        }
+        
+         if(str.equals("material")){
+              try {
+                Daos.ManagerDao.getMateraildao().eliminar(cod);
+            } catch (DaoExepcion ex) {
+                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+             
+             
+         }
+        
+        
+        
+        
+        
+    }
     
-    
+    public static void actualizar (String str){
+        
+        
+        
+    }
     
     
     

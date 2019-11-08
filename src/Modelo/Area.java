@@ -6,7 +6,6 @@
 package Modelo;
 
 /**
- *
  * @author Antonio Martinez Diaz
  */
 public class Area {
