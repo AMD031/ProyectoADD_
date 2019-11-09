@@ -46,7 +46,7 @@ public class Conexion {
 
            leeXml();
    
-      if (cnx == null || cnx.isClosed()) {
+         if (cnx == null || cnx.isClosed()) {
      
            try {
                Class.forName("com.mysql.jdbc.Driver");

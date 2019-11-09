@@ -145,8 +145,8 @@ public class SedeDao implements IDaosSede {
                     ps.setDouble(p++, (Integer) a.get(key));
                 }
          
-                if (a.get(key) instanceof Double) {
-                    ps.setDouble(p++, (Double) a.get(key));
+                if (a.get(key) instanceof Float) {
+                    ps.setDouble(p++, (Float) a.get(key));
                 }
             }
             ps.setInt(p,id);

@@ -93,12 +93,8 @@ public class Unideportivo extends Complejo{
 
     @Override
     public String toString() {
-        return "Unideportivo{" + "cod_complejo=" + cod_complejo + ", deporte=" + deporte + ", info=" + info + '}' ;
+        return super.toString()+" Unideportivo{" + "cod_complejo=" + cod_complejo + ", deporte=" + deporte + ", info=" + info + '}' ;
     }
-
-
-
-  
-    
+   
     
 }

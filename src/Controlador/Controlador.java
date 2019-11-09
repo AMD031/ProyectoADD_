@@ -13,6 +13,7 @@ import Modelo.Material;
 import Modelo.Polideportivo;
 import Modelo.Sede;
 import Modelo.Unideportivo;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -202,8 +203,66 @@ public class Controlador {
         
     }
     
-    public static void actualizar (String str){
+    public static void actualizar (String str,HashMap<Object, Object>datos, int cod){
         
+       if(str.equals("sede")){
+           try {
+               Daos.ManagerDao.getSededao().modificar(datos, cod);
+           } catch (DaoExepcion ex) {
+               Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+           }
+       }
+       
+        if(str.equals("unideportivo")){
+           try {
+               Daos.ManagerDao.getUnideportivo().modificar(datos, cod);
+           } catch (DaoExepcion ex) {
+               Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+           }
+       }
+        
+           if(str.equals("polideportivo")){
+                try {
+                    Daos.ManagerDao.getPolideportivo().modificar(datos, cod);
+                } catch (DaoExepcion ex) {
+                    Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+           
+              if(str.equals("area")){
+                try {
+                    Daos.ManagerDao.getAreadao().modificar(datos, cod);
+                } catch (DaoExepcion ex) {
+                    Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+              
+              
+               if(str.equals("evento")){
+                try {
+                    Daos.ManagerDao.getEventodao().modificar(datos, cod);
+                } catch (DaoExepcion ex) {
+                    Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+             
+              if(str.equals("comisario")){
+                try {
+                    Daos.ManagerDao.getComisariodao().modificar(datos, cod);
+                } catch (DaoExepcion ex) {
+                    Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+           
+            if(str.equals("material")){
+                try {
+                    Daos.ManagerDao.getMateraildao().modificar(datos, cod);
+                } catch (DaoExepcion ex) {
+                    Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+      
+       
         
         
     }

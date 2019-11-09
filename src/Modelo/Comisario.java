@@ -49,11 +49,13 @@ public class Comisario {
     private int cod;
     private String DNI;
     private String Nombre;
-    
-    
-    
-    
-    
+
+
+    @Override
+    public String toString() {
+        return "Comisario{" + "cod=" + cod + ", DNI=" + DNI + ", Nombre=" + Nombre + '}';
+    }
+ 
     
     
     

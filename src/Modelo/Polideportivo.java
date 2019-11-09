@@ -59,14 +59,10 @@ public class Polideportivo extends Complejo{
         this.info = info;
     }
 
-  
     
-    
-    
-  
     @Override
     public String toString() {
-        return "Polideportivo{" + "cod_complejo=" + cod_complejo + ", info=" + info + '}';
+        return super.toString()+" Polideportivo{" + "cod_complejo=" + cod_complejo + ", info=" + info + '}';
     }
     
 }

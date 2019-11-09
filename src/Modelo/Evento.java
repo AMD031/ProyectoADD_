@@ -3,6 +3,7 @@ package Modelo;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -19,10 +20,11 @@ public class Evento {
     private int cod_complejo;
     private Timestamp fecha;
     private int cod_area;
-    List<Comisario> comisarios;
+    HashMap<Comisario, String>comisarios;
     List<Material> Materiales;
 
-    public Evento(int cod, String nombre, int cod_complejo, Timestamp fecha, int cod_area, List<Comisario> comisarios, List<Material> Materiales) {
+    
+    public Evento(int cod, String nombre, int cod_complejo, Timestamp fecha, int cod_area, HashMap<Comisario, String> comisarios, List<Material> Materiales) {
         this.cod = cod;
         this.nombre = nombre;
         this.cod_complejo = cod_complejo;
@@ -31,6 +33,8 @@ public class Evento {
         this.comisarios = comisarios;
         this.Materiales = Materiales;
     }
+
+  
 
     public Evento(int cod, String nombre, int cod_complejo, Timestamp fecha, int cod_area) {
         this.cod = cod;
@@ -47,13 +51,7 @@ public class Evento {
         this.fecha = fecha;
         this.cod_area = cod_area;
     }
-
-    
-    
-
-    
-    
-
+ 
     
     public static Timestamp stringToTimestamp(String str) throws Exception{
          java.util.Date f =null;
@@ -107,14 +105,6 @@ public class Evento {
         this.cod_area = cod_area;
     }
 
-    public List<Comisario> getComisarios() {
-        return comisarios;
-    }
-
-    public void setComisarios(List<Comisario> comisarios) {
-        this.comisarios = comisarios;
-    }
-
     public List<Material> getMateriales() {
         return Materiales;
     }
@@ -123,6 +113,7 @@ public class Evento {
         this.Materiales = Materiales;
     }
 
+    
     @Override
     public String toString() {
         return "Evento{" + "cod=" + cod + ", nombre=" + nombre + ", cod_complejo=" + cod_complejo + ", fecha=" + fecha + ", cod_area=" + cod_area + '}';
