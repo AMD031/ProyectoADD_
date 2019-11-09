@@ -30,13 +30,6 @@ public class ManagerDao {
         return comisariodao;
     }
 
-    public static ComplejoDao getComplejodao() {
-        if (complejodao == null) {
-            complejodao = new ComplejoDao();
-        }
-        return complejodao;
-    }
-
     public static EventoDao getEventodao() {
         if (eventodao == null) {
             eventodao = new EventoDao();
@@ -75,7 +68,6 @@ public class ManagerDao {
 
     private static AreaDao areadao;
     private static ComisarioDao comisariodao;
-    private static ComplejoDao complejodao;
     private static EventoDao eventodao;
     private static MaterialDao materialdao;
     private static PolideportivoDao polideportivo;

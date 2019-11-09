@@ -6,6 +6,7 @@
 package Daos;
 
 import DaosInterfaces.IDaoEvento;
+import Modelo.Comisario;
 import Modelo.Conexion;
 import Modelo.Evento;
 import java.sql.PreparedStatement;
@@ -14,7 +15,10 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -22,20 +26,21 @@ import org.apache.commons.lang3.StringUtils;
  * @author Antonio Martinez Diaz
  */
 public class EventoDao implements IDaoEvento {
+
     @Override
     public boolean insertar(Evento a) throws DaoExepcion {
-             boolean correcto = false;
-             
+        boolean correcto = false;
+
         String sentencia = "INSERT INTO Event(date,name,id_sportcomplex, id_area )"
                 + "VALUES (?,?,?,?)";
-        
+
         try {
             PreparedStatement ps = Conexion.obtener().prepareStatement(sentencia, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setTimestamp(1, a.getFecha());
             ps.setString(2, a.getNombre());
             ps.setInt(3, a.getCod_complejo());
             ps.setInt(4, a.getCod_area());
-            
+
             if (ps.executeUpdate() > 0) {
                 correcto = true;
             }
@@ -48,26 +53,23 @@ public class EventoDao implements IDaoEvento {
             throw new DaoExepcion(ex);
         }
         return correcto;
-        
-        
+
     }
 
-    
     @Override
-    public int eliminar(Integer  a) throws DaoExepcion {
-        
+    public int eliminar(Integer a) throws DaoExepcion {
+
         int cantidad = 0;
-        String Sentencia =   "DELETE FROM event WHERE id =?";
+        String Sentencia = "DELETE FROM event WHERE id =?";
         try {
-            PreparedStatement ps =  Conexion.obtener().prepareStatement(Sentencia);
-            ps.setInt(1,a);
-            cantidad =  ps.executeUpdate();
+            PreparedStatement ps = Conexion.obtener().prepareStatement(Sentencia);
+            ps.setInt(1, a);
+            cantidad = ps.executeUpdate();
         } catch (SQLException ex) {
             throw new DaoExepcion(ex);
         }
         return cantidad;
-        
-        
+
     }
 
     @Override
@@ -75,8 +77,7 @@ public class EventoDao implements IDaoEvento {
         ArrayList<Evento> eventos = null;
         Evento evento = null;
         String consulta = "SELECT * FROM event";
-        
-   
+
         try {
             PreparedStatement ps = Conexion.obtener().prepareStatement(consulta);
             ResultSet rs = ps.executeQuery();
@@ -87,15 +88,15 @@ public class EventoDao implements IDaoEvento {
             int cod_area;
             eventos = new ArrayList<>();
             while (rs.next()) {
-                
-                id= rs.getInt("id");
+
+                id = rs.getInt("id");
                 nombre = rs.getString("name");
                 cod_complejo = rs.getInt("id_sportcomplex");
                 cod_area = rs.getInt("id_area");
                 fecha = rs.getTimestamp("date");
                 //(int cod, String nombre, int cod_complejo, Timestamp fecha, int cod_area)
-                evento = new Evento(id,nombre,cod_complejo,fecha,cod_area);
-         
+                evento = new Evento(id, nombre, cod_complejo, fecha, cod_area);
+
                 if (evento != null) {
                     eventos.add(evento);
                 }
@@ -107,35 +108,34 @@ public class EventoDao implements IDaoEvento {
             Conexion.cerrar();
         }
         return eventos;
-        
-        
-    }
 
+    }
 
     @Override
     public Evento obtener(Integer cod) throws DaoExepcion {
         Evento evento = null;
-        String consulta = "SELECT * FROM event";
-        
-   
+        String consulta = "SELECT * FROM event where id =?";
+
         try {
             PreparedStatement ps = Conexion.obtener().prepareStatement(consulta);
+            ps.setInt(1,cod );
             ResultSet rs = ps.executeQuery();
             int id;
             String nombre;
             int cod_complejo;
             Timestamp fecha;
             int cod_area;
-        
+
             while (rs.next()) {
-                
-                id= rs.getInt("id");
+
+                id = rs.getInt("id");
                 nombre = rs.getString("name");
                 fecha = rs.getTimestamp("date");
                 cod_complejo = rs.getInt("id_sportcomplex");
                 cod_area = rs.getInt("id_area");
-                evento = new Evento(nombre,cod_complejo,fecha,cod_area);
- 
+
+                evento = new Evento(id, nombre,  cod_complejo,  fecha, cod_area);
+
             }
         } catch (SQLException ex) {
             throw new DaoExepcion(ex);
@@ -147,18 +147,18 @@ public class EventoDao implements IDaoEvento {
 
     @Override
     public boolean modificar(HashMap<Object, Object> a, Integer id) throws DaoExepcion {
-   
-          boolean correcto = false;
+
+        boolean correcto = false;
         int p = 1;
         try {
             List<String> clausulas = new ArrayList<>();
             for (Object key : a.keySet()) {
                 clausulas.add(String.format("%s=?", key));
             }
-            
+
             String consulta = String.format("UPDATE event SET %s WHERE id=?",
-                     StringUtils.join(clausulas, ","));
-            
+                    StringUtils.join(clausulas, ","));
+
             PreparedStatement ps = Conexion.obtener().prepareStatement(consulta);
             for (Object key : a.keySet()) {
 
@@ -169,15 +169,15 @@ public class EventoDao implements IDaoEvento {
                 if (a.get(key) instanceof Integer) {
                     ps.setInt(p++, (Integer) a.get(key));
                 }
-             
-                  if (a.get(key) instanceof Timestamp) {
+
+                if (a.get(key) instanceof Timestamp) {
                     ps.setTimestamp(p++, (Timestamp) a.get(key));
                 }
-                
+
             }
-            
-            ps.setInt(p,id);
-            
+
+            ps.setInt(p, id);
+
             if (ps.executeUpdate() == 0) {
                 throw new DaoExepcion("No se ha podido modificar el registro");
             } else {
@@ -191,10 +191,43 @@ public class EventoDao implements IDaoEvento {
         }
 
         return correcto;
-     }
-    
-   
-    
-    
-    
+    }
+
+    @Override
+    public List<Evento> buscar(HashMap<Object, Object> a) throws DaoExepcion {
+        ArrayList<Evento> eventos = new ArrayList<>();
+         LinkedList<Integer> ids = new LinkedList<>();
+
+        String columna = "";
+        int p = 1;
+        try {
+            for (Object key : a.keySet()) {
+                columna = String.format("%s", key);
+            }
+
+            String consulta = String.format("SELECT DISTINCT id FROM event WHERE %s LIKE ?",
+                    StringUtils.join(columna));
+
+            PreparedStatement ps = Conexion.obtener().prepareStatement(consulta);
+            for (Object key : a.keySet()) {
+                if (a.get(key) instanceof String) {
+                    ps.setString(p++, (String) a.get(key));
+                }
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                    ids.add(rs.getInt("id"));   
+            }
+
+            for (Integer id : ids) {
+                eventos.add(obtener(id));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(MaterialDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return eventos;
+    }
+
 }

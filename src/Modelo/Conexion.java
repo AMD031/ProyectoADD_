@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +27,7 @@ public class Conexion {
    private static String bbdd; 
    private static String login;
    private static String password;
+
     
     
     
@@ -39,13 +41,16 @@ public class Conexion {
                 }else{
                     this.password=password;	
                 }
+ 
 	}
+    
+    
+    
+    
 
    private static Connection cnx = null;
-   public static Connection obtener() throws SQLException {
-
-           leeXml();
-   
+   public static Connection obtener() throws SQLException{
+        leeXml();
          if (cnx == null || cnx.isClosed()) {
      
            try {
@@ -61,6 +66,8 @@ public class Conexion {
                Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
            }
             
+        
+           
       }
       return cnx;
    }
@@ -83,7 +90,7 @@ public class Conexion {
    
        try {
            if(new File("DatosCnx.xml").exists()){
-         datos = new ArrayList<>();
+           datos = new ArrayList<>();
            NodeList nodelist = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("DatosCnx.xml"))
                    .getDocumentElement().getChildNodes();
            
@@ -110,7 +117,37 @@ public class Conexion {
     }
  
     
-}
+    
+    
+    
+    
+    
+    public static void crearDDBB() throws SQLException {
+		try {
+                 leeXml();
+                 
+                Conexion.cnx= DriverManager.getConnection("jdbc:mysql://"+Conexion.host+"/"+""
+                + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Madrid&user="
+                +Conexion.login+"&password="+Conexion.password);
+                Statement  statement = cnx.createStatement();
+		String sql = "CREATE DATABASE IF NOT EXISTS "+Conexion.bbdd+" CHARACTER SET utf8 COLLATE utf8_general_ci";
+		boolean existe = statement.execute(sql);
+                cnx =null;
+                if(!existe){
+                   Basededatos.CrearTablas();
+                }
+                
+		} catch (SQLException e) {
+			throw new SQLException("Error sql, el servidor puede no estar disponible.");
+		}
+	
+	}
+    
+    
+    
+    
+    
+}//fin clase
 
 
 

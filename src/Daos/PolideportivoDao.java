@@ -7,6 +7,7 @@ package Daos;
 
 import DaosInterfaces.IDaoPolideportivo;
 import Modelo.Conexion;
+import Modelo.Material;
 import Modelo.Polideportivo;
 import Vista.Main;
 import java.sql.PreparedStatement;
@@ -14,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -163,9 +165,10 @@ public class PolideportivoDao implements IDaoPolideportivo {
     @Override
     public Polideportivo obtener(Integer cod) throws DaoExepcion {
         Polideportivo polideportivo = null;
-        String consulta = "SELECT * FROM sportcomplex sx INNER JOIN multisportcenter mr on sx.id = mr.id_sportcomplex ";
+        String consulta = "SELECT * FROM sportcomplex sx INNER JOIN multisportcenter mr on sx.id = mr.id_sportcomplex where sx.id = ?";
         try {
             PreparedStatement ps = Conexion.obtener().prepareStatement(consulta);
+            ps.setInt(1, cod);
             ResultSet rs = ps.executeQuery();
             String info;
             int id;
@@ -237,6 +240,47 @@ public class PolideportivoDao implements IDaoPolideportivo {
 
         return correcto;
         
+    }
+
+
+
+    @Override
+    public List<Polideportivo> buscar(HashMap<Object, Object> a) throws DaoExepcion {
+         ArrayList<Polideportivo> polideportivos = new ArrayList<>();
+         LinkedList<Integer> ids = new LinkedList<>();
+
+        String columna = "";
+        int p = 1;
+        try {
+            for (Object key : a.keySet()) {
+                columna = String.format("%s", key);
+            }
+
+            String consulta = String.format("SELECT DISTINCT mr.id_sportcomplex  FROM sportcomplex sx INNER JOIN"
+                    + " multisportcenter mr on sx.id = mr.id_sportcomplex where %s like ?",
+                    StringUtils.join(columna));
+            
+            PreparedStatement ps = Conexion.obtener().prepareStatement(consulta);
+            for (Object key : a.keySet()) {
+                if (a.get(key) instanceof String) {
+                    ps.setString(p++, (String) a.get(key));
+                }
+            }
+            
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ids.add(rs.getInt("id_sportcomplex"));
+            }
+
+            for (Integer id : ids) {
+                polideportivos.add(obtener(id));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(MaterialDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return polideportivos;
+
     }
 
 }

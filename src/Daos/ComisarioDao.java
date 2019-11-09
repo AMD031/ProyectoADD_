@@ -8,12 +8,15 @@ package Daos;
 import DaosInterfaces.IDaoComisario;
 import Modelo.Comisario;
 import Modelo.Conexion;
+import Modelo.Material;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -107,6 +110,7 @@ public class ComisarioDao implements IDaoComisario {
         String consulta = "SELECT * FROM commissioner where id =?";
         try {
             PreparedStatement ps = Conexion.obtener().prepareStatement(consulta);
+            ps.setInt(1, cod);
             ResultSet rs = ps.executeQuery();
             int id;
             String nombre;
@@ -169,5 +173,45 @@ public class ComisarioDao implements IDaoComisario {
         return correcto;
 
     }
+
+    @Override
+    public List<Comisario> buscar(HashMap<Object, Object> a) throws DaoExepcion {
+        ArrayList<Comisario> comisarios = new ArrayList<>();
+        ArrayList<Integer> ids = new ArrayList<>();
+
+        String columna = "";
+        int p = 1;
+        try {
+            for (Object key : a.keySet()) {
+                columna = String.format("%s", key);
+            }
+            
+            String consulta = String.format("SELECT DISTINCT id FROM commissioner WHERE %s LIKE ?",
+                    StringUtils.join(columna));
+            
+            PreparedStatement ps = Conexion.obtener().prepareStatement(consulta);
+            for (Object key : a.keySet()) {
+                if (a.get(key) instanceof String) {
+                    ps.setString(p++, (String) a.get(key));
+                }
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ids.add(rs.getInt("id"));
+            }
+
+            for (Integer id : ids) {
+                comisarios.add(obtener(id));
+            }
+
+         
+        } catch (SQLException ex) {
+            Logger.getLogger(MaterialDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return comisarios;
+    }
+
+  
 
 }

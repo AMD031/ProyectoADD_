@@ -18,6 +18,8 @@ public interface IDaos<T, K> {
     public int eliminar(K a)throws DaoExepcion;
     public List<T>ObtenerTodos()throws DaoExepcion;
     public T obtener(K cod)throws DaoExepcion;
+    public List<T> buscar(HashMap<Object,Object> a)throws DaoExepcion;
+    
 
     
 }

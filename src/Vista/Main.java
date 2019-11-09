@@ -6,8 +6,13 @@
 package Vista;
 
 import Daos.DaoExepcion;
+import Modelo.Area;
+import Modelo.Comisario;
+import Modelo.Conexion;
 import Modelo.Evento;
+import Modelo.Material;
 import Modelo.Polideportivo;
+import Modelo.Sede;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -90,11 +95,18 @@ public class Main {
             
             // Unideportivo a = new Unideportivo(114);
             // Daos.ManagerDao.getUnideportivo().eliminar(a);
-            
-            
-            
-            
-             Menu menu =  Menu.getInstance();
+            Conexion.crearDDBB();
+            Menu menu =  Menu.getInstance();
+             
+            /* HashMap<Object, Object> dato = new HashMap<>();
+             dato.put("sport", "%fútbol%");
+
+             for(Area m : Daos.ManagerDao.getAreadao().buscar(dato)){
+                 System.out.println(m);
+             }  */
+             // Daos.ManagerDao.getSededao().buscar(dato, s);
+             
+             
      /*   } catch (DaoExepcion ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }*/

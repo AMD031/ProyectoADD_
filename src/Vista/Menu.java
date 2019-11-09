@@ -14,7 +14,6 @@ import Modelo.Material;
 import Modelo.Polideportivo;
 import Modelo.Sede;
 import Modelo.Unideportivo;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
@@ -50,10 +49,18 @@ public class Menu {
         ACmaterial = creaActualizaMatarial();
         ACcomisario = creaActualizaComisario();
         ACarea = creaActualizaArea();
+        //----------------
+        Bsede = creaBuscaSede();
+        Bpolideportivo = creaBuscaPolideportivo();
+        Bunideportivo = creaBuscaUnideportivo();
+        Barea = creaBuscaArea();
+        Bcomisario = creaBuscaComisario();
+        Bmaterial = creaBuscaMaterial();
+        Bevento = creaBuscaEvento();
 
         Menu.iniciaMenu(sc);
     }
-
+    //lista de opciones
     private static List<String> ACsede;
     private static List<String> ACpolideportivo;
     private static List<String> ACunideportivo;
@@ -61,11 +68,20 @@ public class Menu {
     private static List<String> ACcomisario;
     private static List<String> ACmaterial;
     private static List<String> ACevento;
+    //lista buscar
+    private static List<String> Bsede;
+    private static List<String> Bpolideportivo;
+    private static List<String> Bunideportivo;
+    private static List<String> Barea;
+    private static List<String> Bcomisario;
+    private static List<String> Bmaterial;
+    private static List<String> Bevento;
 
     private static boolean err;
     private static ArrayList<String> Principal;
     private static Scanner sc;
     private static int opn;
+    // opciones de actualizar
 
     private List<String> creaActualizaSede() {
         ArrayList datos = new ArrayList<>();
@@ -77,13 +93,11 @@ public class Menu {
 
     private List<String> creaActualizaUnideportivo() {
         ArrayList datos = new ArrayList<>();
-    
         datos.add("1 Actualiza info");
         datos.add("2 Actualiza localizacion");
         datos.add("3 Actualiza nombre del jefe");
         datos.add("4 Actualiza deporte");
         datos.add("0 salir");
-
         return datos;
     }
 
@@ -127,6 +141,70 @@ public class Menu {
         return datos;
     }
 
+    //opciones de buscar
+    private List<String> creaBuscaSede() {
+        ArrayList datos = new ArrayList<>();
+        datos.add("1 Busca por nombre");
+        datos.add("2 busca por presupuesto");
+        datos.add("0 salir");
+        return datos;
+
+    }
+
+    private List<String> creaBuscaPolideportivo() {
+        ArrayList datos = new ArrayList<>();
+        datos.add("1 busca por info");
+        datos.add("2 busca por localizacion");
+        datos.add("3 busca por nombre del jefe");
+        datos.add("0 salir");   
+        return datos;
+
+    }
+
+    private List<String> creaBuscaUnideportivo() {
+        ArrayList datos = new ArrayList<>();
+        datos.add("1 busca por info");
+        datos.add("2 busca por localizacion");
+        datos.add("3 busca por nombre del jefe");
+        datos.add("4 busca por deporte");
+        datos.add("0 salir");
+        return datos;
+    }
+
+    private List<String> creaBuscaArea() {
+        ArrayList datos = new ArrayList<>();
+        datos.add("1 Busca localizacion");
+        datos.add("2 Busca deporte");
+        datos.add("0 salir");
+        return datos;
+    }
+
+    private List<String> creaBuscaEvento() {
+        ArrayList datos = new ArrayList<>();
+
+        datos.add("1 busca por nombre");
+        datos.add("2 busca por fecha");
+        datos.add("0 salir");
+
+        return datos;
+    }
+
+    private List<String> creaBuscaMaterial() {
+        ArrayList datos = new ArrayList<>();
+        datos.add("1 buca por  nombre");
+        datos.add("0 salir");
+        return datos;
+    }
+
+    private List<String> creaBuscaComisario() {
+        ArrayList datos = new ArrayList<>();
+        datos.add("1 busca por dni");
+        datos.add("2 busca por nombre");
+        datos.add("0 salir");
+        return datos;
+    }
+
+    //-------------------------------------------
     private static void creaPrinciapal() {
         Principal = new ArrayList<>();
         Principal.add("1 Menu sede");
@@ -141,13 +219,15 @@ public class Menu {
 
     private static List<String> creaSubmenu(String txt) {
         ArrayList<String> Submenu = new ArrayList<>();
+  
         Submenu.add("---" + txt.toUpperCase() + "---");
+        Submenu.add("0 Salir");
         Submenu.add("1 Crear " + txt);
         Submenu.add("2 Actualizar " + txt);
         Submenu.add("3 Borrar " + txt);
         Submenu.add("4 Listar todos ");
-        Submenu.add("5 Listar un elemento por codigo" + txt);
-        Submenu.add("0 Salir");
+        Submenu.add("5 Buscar elemento " + txt);
+
         return Submenu;
     }
 
@@ -168,6 +248,9 @@ public class Menu {
         System.out.println(txt);
     }
 
+   
+
+   // menus pricipales
     private static void iniciaMenu(Scanner sc) {
 
         int op = 0;
@@ -219,7 +302,7 @@ public class Menu {
         }
 
     }
-
+    
     private static void MenuSede(Scanner sc) {
 
         int op = 0;
@@ -256,12 +339,15 @@ public class Menu {
                         imprime("introduce codigo");
                         codE = sc.nextInt();
                         Controlador.borrar("sede", codE);
-
                         break;
 
                     case 4:
                         Controlador.mostrar("sede");
                         break;
+                    case 5:
+                        MenuBucarsede(sc);
+                        break;
+
                 }
 
             } while (op != 0);
@@ -291,7 +377,6 @@ public class Menu {
         int op = 0;
         try {
             do {
-
                 imprimeMenu(creaSubmenu("Unideportivo"));
                 op = sc.nextInt();
                 switch (op) {
@@ -312,8 +397,7 @@ public class Menu {
                         Unideportivo a = new Unideportivo(deporte, info, localizacion, jefe, cod_sede);
                         Controlador.insertar("unideportivo", a);
                         break;
-                        
-                        
+
                     case 2:
                         MenuActualizaUnideportivo(sc);
                         break;
@@ -327,6 +411,10 @@ public class Menu {
 
                     case 4:
                         Controlador.mostrar("unideportivo");
+                        break;
+
+                    case 5:
+                        MenuBucarUnideportivo(sc);
                         break;
 
                 }
@@ -375,7 +463,7 @@ public class Menu {
                         Polideportivo a = new Polideportivo(info, localizacion, jefe, cod_sede);
                         Controlador.insertar("polideportivo", a);
                         break;
-                        
+
                     case 2:
                         MenuActualizaPolideportivo(sc);
                         break;
@@ -390,6 +478,10 @@ public class Menu {
                     case 4:
                         Controlador.mostrar("polideportivo");
                         break;
+                    case 5:
+                        MenuBucarPolideportivo(sc);
+                        break;
+
                 }
             } while (op != 0);
         } catch (InputMismatchException e) {
@@ -432,8 +524,7 @@ public class Menu {
                         break;
                     case 2:
                         MenuActualizaArea(sc);
-                     break;
-                        
+                        break;
 
                     case 3:
                         imprime("introduce codigo");
@@ -444,6 +535,9 @@ public class Menu {
 
                     case 4:
                         Controlador.mostrar("area");
+                        break;
+                    case 5:
+                           MenuBucarArea(sc);
                         break;
 
                 }
@@ -490,6 +584,10 @@ public class Menu {
 
                         break;
 
+                    case 2:
+                        MenuActualizaEvento(sc);
+                        break;
+
                     case 3:
                         imprime("introduce codigo");
                         codE = sc.nextInt();
@@ -498,6 +596,10 @@ public class Menu {
 
                     case 4:
                         Controlador.mostrar("evento");
+                        break;
+
+                    case 5:
+                        MenuBucarEvento(sc);
                         break;
 
                 }
@@ -552,6 +654,10 @@ public class Menu {
                     case 4:
                         Controlador.mostrar("comisario");
                         break;
+                    case 5:
+                            MenuBucarComisario(sc);
+                        break;
+
                 }
             } while (op != 0);
         } catch (InputMismatchException e) {
@@ -605,6 +711,10 @@ public class Menu {
                     case 4:
                         Controlador.mostrar("material");
                         break;
+
+                    case 5:
+                          MenuBuscarMaterial(sc);
+                        break;
                 }
             } while (op != 0);
         } catch (InputMismatchException e) {
@@ -619,13 +729,14 @@ public class Menu {
             iniciaMenu(Menu.sc);
         }
     }
-
+   
+    //menu actualiazar
     private static void MenuActualizaComisario(Scanner sc) {
         int op = 0;
         HashMap<Object, Object> datos = new HashMap<>();
         int codigo = 0;
         String dni = "";
-
+        
         try {
 
             do {
@@ -660,7 +771,6 @@ public class Menu {
         }
 
     }
-
     private static void MenuActualizaSede(Scanner sc) {
         int op = 0;
         HashMap<Object, Object> datos = new HashMap<>();
@@ -701,245 +811,503 @@ public class Menu {
         }
 
     }
-    
-     private static void MenuActualizaArea(Scanner sc){
-            int op =0;
-            HashMap<Object, Object> datos = new HashMap<>();
-            int codigo =0;
-            String localizacion ="";
-            String deporte ="";
-            try { 
-            
-                
-             do {
-                 imprimeMenu(ACarea);
-                  op = sc.nextInt(); 
-               switch(op){
-                               
-                   case 1:
-                       Menu.imprime("introduce codigo del elemento");
-                       codigo = sc.nextInt();
-                       Menu.imprime("introduce nueva localizacion");
-                       localizacion = sc.next();
-                       datos = new HashMap<>();
-                       datos.put("location",localizacion);
-                       Controlador.actualizar("area", datos, codigo);
-                     break;
-                     
-                     case 2:
-                       Menu.imprime("introduce codigo del elemento");
-                       codigo = sc.nextInt();
-                       Menu.imprime("introduce nuevo deporte");
-                       deporte = sc.next();
-                       datos = new HashMap<>();
-                       datos.put("sport", deporte);
-                       Controlador.actualizar("area", datos, codigo);
-                      break;   
-               }      
-             }while(op != 0);
-          } catch (InputMismatchException e) {
-           Menu.imprime("Error: no se permite letras");
-          }
-            
-            
-    }
-    
-      private static void MenuActualizaPolideportivo(Scanner sc){
-            int op =0;
-           HashMap<Object, Object> datos = new HashMap<>();
-           int codigo =0;
-          String info;
-          String localizacion;
-          String jefe;
-            try { 
-            
-                
-             do {
-                 imprimeMenu(ACpolideportivo);
-                  op = sc.nextInt(); 
-               switch(op){
-                               
-                   case 1:
-                       Menu.imprime("introduce codigo del elemento");
-                       codigo = sc.nextInt();
-                       Menu.imprime("introduce nueva informacion");
-                       sc.nextLine();
-                       info = sc.nextLine();
-                       datos = new HashMap<>();
-                       datos.put("information",info);
-                       Controlador.actualizar("polideportivo", datos, codigo);
-                     break;
-                     
-                     case 2:
-                       Menu.imprime("introduce codigo del elemento");
-                       codigo = sc.nextInt();
-                       Menu.imprime("introduce nueva localizacion");
-                       sc.nextLine();
-                       localizacion = sc.nextLine();
-                       datos = new HashMap<>();
-                       datos.put("location",localizacion);
-                       Controlador.actualizar("polideportivo", datos, codigo);
-                        break; 
-                        
-                       case 3:
+    private static void MenuActualizaArea(Scanner sc) {
+        int op = 0;
+        HashMap<Object, Object> datos = new HashMap<>();
+        int codigo = 0;
+        String localizacion = "";
+        String deporte = "";
+        try {
+
+            do {
+                imprimeMenu(ACarea);
+                op = sc.nextInt();
+                switch (op) {
+
+                    case 1:
                         Menu.imprime("introduce codigo del elemento");
                         codigo = sc.nextInt();
-                        Menu.imprime("introduce nuevo jefe");
-                        sc.nextLine();
-                        jefe = sc.nextLine();
+                        Menu.imprime("introduce nueva localizacion");
+                        localizacion = sc.next();
                         datos = new HashMap<>();
-                        datos.put("boss",jefe);
+                        datos.put("location", localizacion);
+                        Controlador.actualizar("area", datos, codigo);
+                        break;
+
+                    case 2:
+                        Menu.imprime("introduce codigo del elemento");
+                        codigo = sc.nextInt();
+                        Menu.imprime("introduce nuevo deporte");
+                        deporte = sc.next();
+                        datos = new HashMap<>();
+                        datos.put("sport", deporte);
+                        Controlador.actualizar("area", datos, codigo);
+                        break;
+                }
+            } while (op != 0);
+        } catch (InputMismatchException e) {
+            Menu.imprime("Error: no se permite letras");
+        }
+
+    }
+    private static void MenuActualizaPolideportivo(Scanner sc) {
+        int op = 0;
+        HashMap<Object, Object> datos = new HashMap<>();
+        int codigo = 0;
+        String info;
+        String localizacion;
+        String jefe;
+        try {
+
+            do {
+                imprimeMenu(ACpolideportivo);
+                op = sc.nextInt();
+                switch (op) {
+
+                    case 1:
+                        Menu.imprime("introduce codigo del elemento");
+                        codigo = sc.nextInt();
+                        Menu.imprime("introduce nueva informacion");
+                        sc.nextLine();
+                        info = sc.nextLine();
+                        datos = new HashMap<>();
+                        datos.put("information", info);
                         Controlador.actualizar("polideportivo", datos, codigo);
-                        break;  
-                        
-                        
-               }      
-             }while(op != 0);
-          } catch (InputMismatchException e) {
-           Menu.imprime("Error: no se permite letras");
-          }
-            
-            
-    }
-    
-     private static void MenuActualizaUnideportivo(Scanner sc){
-          int op =0;
-          HashMap<Object, Object> datos = new HashMap<>();
-          int codigo =0;
-          String info;
-          String localizacion;
-          String deporte;
-          String jefe;
-            try { 
-            
-                
-             do {
-                 imprimeMenu(ACunideportivo);
-                  op = sc.nextInt(); 
-               switch(op){
-                               
-                   case 1:
-                       Menu.imprime("introduce codigo del elemento");
-                       codigo = sc.nextInt();
-                       Menu.imprime("introduce nueva informacion");
-                       sc.nextLine();
-                       info = sc.nextLine();
-                       datos = new HashMap<>();
-                       datos.put("information",info);
-                       Controlador.actualizar("unideportivo", datos, codigo);
-                     break;
-                     
-                     case 2:
-                       Menu.imprime("introduce codigo del elemento");
-                       codigo = sc.nextInt();
-                       Menu.imprime("introduce nueva localizacion");
-                       sc.nextLine();
-                       localizacion = sc.nextLine();
-                       datos = new HashMap<>();
-                       datos.put("location",localizacion);
-                       Controlador.actualizar("unideportivo", datos, codigo);
-                        break; 
-                        
-                       case 3:
+                        break;
+
+                    case 2:
+                        Menu.imprime("introduce codigo del elemento");
+                        codigo = sc.nextInt();
+                        Menu.imprime("introduce nueva localizacion");
+                        sc.nextLine();
+                        localizacion = sc.nextLine();
+                        datos = new HashMap<>();
+                        datos.put("location", localizacion);
+                        Controlador.actualizar("polideportivo", datos, codigo);
+                        break;
+
+                    case 3:
                         Menu.imprime("introduce codigo del elemento");
                         codigo = sc.nextInt();
                         Menu.imprime("introduce nuevo jefe");
                         sc.nextLine();
                         jefe = sc.nextLine();
                         datos = new HashMap<>();
-                        datos.put("boss",jefe);
+                        datos.put("boss", jefe);
+                        Controlador.actualizar("polideportivo", datos, codigo);
+                        break;
+
+                }
+            } while (op != 0);
+        } catch (InputMismatchException e) {
+            Menu.imprime("Error: no se permite letras");
+        }
+
+    }
+    private static void MenuActualizaUnideportivo(Scanner sc) {
+        int op = 0;
+        HashMap<Object, Object> datos = new HashMap<>();
+        int codigo = 0;
+        String info;
+        String localizacion;
+        String deporte;
+        String jefe;
+        try {
+
+            do {
+                imprimeMenu(ACunideportivo);
+                op = sc.nextInt();
+                switch (op) {
+
+                    case 1:
+                        Menu.imprime("introduce codigo del elemento");
+                        codigo = sc.nextInt();
+                        Menu.imprime("introduce nueva informacion");
+                        sc.nextLine();
+                        info = sc.nextLine();
+                        datos = new HashMap<>();
+                        datos.put("information", info);
                         Controlador.actualizar("unideportivo", datos, codigo);
-                        break;  
-                        
-                       case 4:
-                           
+                        break;
+
+                    case 2:
+                        Menu.imprime("introduce codigo del elemento");
+                        codigo = sc.nextInt();
+                        Menu.imprime("introduce nueva localizacion");
+                        sc.nextLine();
+                        localizacion = sc.nextLine();
+                        datos = new HashMap<>();
+                        datos.put("location", localizacion);
+                        Controlador.actualizar("unideportivo", datos, codigo);
+                        break;
+
+                    case 3:
+                        Menu.imprime("introduce codigo del elemento");
+                        codigo = sc.nextInt();
+                        Menu.imprime("introduce nuevo jefe");
+                        sc.nextLine();
+                        jefe = sc.nextLine();
+                        datos = new HashMap<>();
+                        datos.put("boss", jefe);
+                        Controlador.actualizar("unideportivo", datos, codigo);
+                        break;
+
+                    case 4:
+
                         Menu.imprime("introduce codigo del elemento");
                         codigo = sc.nextInt();
                         Menu.imprime("introduce nuevo deporte");
                         sc.nextLine();
                         deporte = sc.nextLine();
                         datos = new HashMap<>();
-                        datos.put("sport",deporte);
+                        datos.put("sport", deporte);
                         Controlador.actualizar("unideportivo", datos, codigo);
-                           
-                           
-                           
-                       break; 
-                        
-                        
-               }      
-             }while(op != 0);
-          } catch (InputMismatchException e) {
-           Menu.imprime("Error: no se permite letras");
-          }
-            
-            
-            
-  
-            
-            
-            
-            
+
+                        break;
+
+                }
+            } while (op != 0);
+        } catch (InputMismatchException e) {
+            Menu.imprime("Error: no se permite letras");
+        }
+
     }
-    
-    
-     private static void MenuActualizaEvento(Scanner sc){
-          int op =0;
-          HashMap<Object, Object> datos = new HashMap<>();
-          int codigo =0;
-          String nombre = "";
-          String fecha =null;
-            try { 
-            
-                
-             do {
-                 imprimeMenu(ACevento);
-                  op = sc.nextInt(); 
-               switch(op){
-                               
-                   case 1:
-                       Menu.imprime("introduce codigo del elemento");
-                       codigo = sc.nextInt();
-                       Menu.imprime("introduce nuevo nombre");
-                       sc.nextLine();
-                       nombre = sc.nextLine();
-                       datos = new HashMap<>();
-                       datos.put("name",nombre);
-                       Controlador.actualizar("unideportivo", datos, codigo);
-                     break;
-                     
-                     case 2:
-                       Menu.imprime("introduce codigo del elemento");
-                       codigo = sc.nextInt();
-                       Menu.imprime("introduce nueva fecha con formato MM.dd.yyyy hh:ss");
-                       sc.nextLine();
-                       fecha = sc.nextLine();
-                       datos = new HashMap<>();
-                       datos.put("date",Evento.stringToTimestamp(fecha));
-                       Controlador.actualizar("unideportivo", datos, codigo);
-                        break; 
-                        
-                
-                        
-                        
-               }      
-             }while(op != 0);
-          } catch (InputMismatchException e) {
-           Menu.imprime("Error: no se permite letras");
-          } catch (Exception ex) {
+    private static void MenuActualizaEvento(Scanner sc) {
+        int op = 0;
+        HashMap<Object, Object> datos = new HashMap<>();
+        int codigo = 0;
+        String nombre = "";
+        String fecha = null;
+        try {
+
+            do {
+                imprimeMenu(ACevento);
+                op = sc.nextInt();
+                switch (op) {
+
+                    case 1:
+                        Menu.imprime("introduce codigo del elemento");
+                        codigo = sc.nextInt();
+                        Menu.imprime("introduce nuevo nombre");
+                        sc.nextLine();
+                        nombre = sc.nextLine();
+                        datos = new HashMap<>();
+                        datos.put("name", nombre);
+                        Controlador.actualizar("evento", datos, codigo);
+                        break;
+
+                    case 2:
+                        Menu.imprime("introduce codigo del elemento");
+                        codigo = sc.nextInt();
+                        Menu.imprime("introduce nueva fecha con formato MM.dd.yyyy hh:ss");
+                        sc.nextLine();
+                        fecha = sc.nextLine();
+                        datos = new HashMap<>();
+                        datos.put("date", Evento.stringToTimestamp(fecha));
+                        Controlador.actualizar("evento", datos, codigo);
+                        break;
+
+                }
+            } while (op != 0);
+        } catch (InputMismatchException e) {
+            Menu.imprime("Error: no se permite letras");
+        } catch (Exception ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
-            
-            
-  
-            
-            
-            
-            
+
     }
     
+    //menu buscar
+    private static void MenuBucarsede(Scanner sc) {
+
+        HashMap<Object, Object> datos = new HashMap<>();
+        int op = 0;
+        String nombre = "";
+        float presupuesto = 0f;
+        try {
+
+            do {
+                imprimeMenu(Bsede);
+                op = sc.nextInt();
+                switch (op) {
+
+                    case 1:        
+                        Menu.imprime("introduce nombre");
+                        nombre = sc.next();
+                        datos = new HashMap<>();
+                        datos.put("name", "%"+nombre+"%");
+                        Controlador.buscar("sede", datos);
+                        break;
+
+                    case 2:
+                        Menu.imprime("introduce presupuesto");
+                        presupuesto = sc.nextFloat();
+                        datos = new HashMap<>();
+                        datos.put("budget","%"+presupuesto+"%");
+                        Controlador.buscar("sede", datos);
+                        break;
+                }
+            } while (op != 0);
+
+        } catch (InputMismatchException e) {
+            Menu.imprime("Error: no se permite letras");
+        }
+    }
+    private static void MenuBucarUnideportivo(Scanner sc){
+        
+        int op = 0;
+        HashMap<Object, Object> datos = new HashMap<>();
+        int codigo = 0;
+        String info;
+        String localizacion;
+        String deporte;
+        String jefe;
+        try {
+
+            do {
+                imprimeMenu(Bunideportivo);
+                op = sc.nextInt();
+                switch (op) {
+
+                    case 1:
+              
+                        Menu.imprime("introduce informacion");
+                        sc.nextLine();
+                        info = sc.nextLine();
+                        datos = new HashMap<>();
+                        datos.put("sr.information", "%"+info+"%");
+                        Controlador.buscar("unideportivo", datos);
+                        break;
+
+                    case 2:
+                        Menu.imprime("introduce localizacion");
+                        sc.nextLine();
+                        localizacion = sc.nextLine();
+                        datos = new HashMap<>();
+                        datos.put("sr.location", "%"+ localizacion+ "%");
+                      Controlador.buscar("unideportivo", datos);
+                        break;
+
+                    case 3:
+                        Menu.imprime("introduce jefe");
+                        sc.nextLine();
+                        jefe = sc.nextLine();
+                        datos = new HashMap<>();
+                        datos.put("sx.boss","%"+ jefe+ "%");
+                        Controlador.buscar("unideportivo", datos);
+                        break;
+
+                    case 4:
+                        Menu.imprime("introduce deporte");
+                        sc.nextLine();
+                        deporte = sc.nextLine();
+                        datos = new HashMap<>();
+                        datos.put("sr.sport",  "%"+deporte+"%");
+                        Controlador.buscar("unideportivo", datos);
+
+                        break;
+
+                }
+            } while (op != 0);
+        } catch (InputMismatchException e) {
+            Menu.imprime("Error: no se permite letras");
+        }
+        
+        
+        
+    }
+    private static void MenuBucarPolideportivo(Scanner sc){
+ 
+          int op = 0;
+        HashMap<Object, Object> datos = new HashMap<>();
+        String info;
+        String localizacion;
+        String jefe;
+        try {
+
+            do {
+                imprimeMenu(Bpolideportivo);
+                op = sc.nextInt();
+                switch (op) {
+
+                    case 1:
+                        Menu.imprime("introduce informacion");
+                        sc.nextLine();
+                        info = sc.nextLine();
+                        datos = new HashMap<>();
+                        datos.put("information", "%"+info+"%");
+                        Controlador.buscar("polideportivo", datos);
+                        break;
+
+                    case 2:
+                        Menu.imprime("introduce localizacion");
+                        sc.nextLine();
+                        localizacion = sc.nextLine();
+                        datos = new HashMap<>();
+                        datos.put("location", "%"+localizacion+"%");
+                        Controlador.buscar("polideportivo", datos);
+                        break;
+
+                    case 3:
+                        Menu.imprime("introduce jefe");
+                        sc.nextLine();
+                        jefe = sc.nextLine();
+                        datos = new HashMap<>();
+                        datos.put("boss", "%"+jefe+"%");
+                        Controlador.buscar("polideportivo", datos);
+                        break;
+
+                }
+            } while (op != 0);
+        } catch (InputMismatchException e) {
+            Menu.imprime("Error: no se permite letras");
+        }
+
+        
+        
+        
+        
+        
+        
+        
+        
+    }
+    private static void MenuBucarArea(Scanner sc){
+        int op = 0;
+        HashMap<Object, Object> datos = new HashMap<>();
+        String localizacion = "";
+        String deporte = "";
+        try {
+
+            do {
+                imprimeMenu(Barea);
+                op = sc.nextInt();
+                switch (op) {
+                    case 1:
+                        Menu.imprime("introduce localizacion");
+                        localizacion = sc.next();
+                        datos = new HashMap<>();
+                        datos.put("location","%"+ localizacion+"%");
+                        Controlador.buscar("area", datos);
+                        break;
+
+                    case 2:
+                        Menu.imprime("introduce deporte");
+                        deporte = sc.next();
+                        datos = new HashMap<>();
+                        datos.put("sport", "%"+deporte+"%");
+                        Controlador.buscar("area", datos);
+                        break;
+                }
+            } while (op != 0);
+        } catch (InputMismatchException e) {
+            Menu.imprime("Error: no se permite letras");
+        }
+    }
+    private static void MenuBucarComisario(Scanner sc){
+        int op = 0;
+        HashMap<Object, Object> datos = new HashMap<>();
+        String dni = "";
+        try {
+            do {
+                imprimeMenu(Bcomisario);
+                op = sc.nextInt();
+                switch (op) {
+
+                    case 1:
+                        Menu.imprime("introduce  dni");
+                        dni = sc.next();
+                        datos = new HashMap<>();
+                        datos.put("dni", "%"+dni+"%");
+                        Controlador.buscar("comisario", datos);
+                        break;
+
+                    case 2:
+                        Menu.imprime("introduce nombre");
+                        String nComisario = sc.next();
+                        datos = new HashMap<>();
+                        datos.put("name", "%"+nComisario+"%");
+                        Controlador.buscar("comisario", datos);
+                        break;
+                }
+            } while (op != 0);
+
+        } catch (InputMismatchException e) {
+            Menu.imprime("Error: no se permite letras");
+        }
+        
+        
+        
+    } 
+    private static void MenuBucarEvento(Scanner sc){  
+           int op = 0;
+        HashMap<Object, Object> datos = new HashMap<>();
+         String nombre = "";
+        String fecha = null;
+        try {
+
+            do {
+                imprimeMenu(Bevento);
+                op = sc.nextInt();
+                switch (op) {
+
+                    case 1:
+                 
+                        Menu.imprime("introduce nombre");
+                        sc.nextLine();
+                        nombre = sc.nextLine();
+                        datos = new HashMap<>();
+                        datos.put("name", "%"+nombre+"%");
+                        Controlador.buscar("evento", datos);
+                        break;
+
+                    case 2:
+                 
+                        Menu.imprime("introduce  fecha con ");
+                        sc.nextLine();
+                        fecha = sc.nextLine();
+                        datos = new HashMap<>();
+                        datos.put("date",  "%"+fecha+"%");
+                        Controlador.buscar("evento", datos);
+                        break;
+                }
+            } while (op != 0);
+        } catch (InputMismatchException e) {
+            Menu.imprime("Error: no se permite letras");
+        } catch (Exception ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    private static void MenuBuscarMaterial(Scanner sc){
+        int op = 0;
+        HashMap<Object, Object> datos = new HashMap<>();
+        try {
+
+            do {
+                imprimeMenu(Bmaterial);
+                op = sc.nextInt();
+                switch (op) {
+
+                    case 1:
+     
+                        Menu.imprime("introduce nombre");
+                        String nMaterial = sc.next();
+                        datos = new HashMap<>();
+                        datos.put("name","%"+nMaterial+"%");
+                        Controlador.buscar("material", datos);
+                        break;
     
+                }
+            } while (op != 0);
+        } catch (InputMismatchException e) {
+            Menu.imprime("Error: no se permite letras");
+        } catch (Exception ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    } 
+   
     
     
     

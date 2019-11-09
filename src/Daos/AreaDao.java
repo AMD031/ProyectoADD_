@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
@@ -95,16 +96,14 @@ public class AreaDao implements IDaoArea {
         } catch (SQLException ex) {
             throw new DaoExepcion(ex);
         } finally {
-
             Conexion.cerrar();
-
         }
         return areas;
 
     }
 
     @Override
-    public Area obtener(Integer cod) {
+    public Area obtener(Integer cod) throws DaoExepcion {
         int id;
         int id_poli;
         String loc;
@@ -112,7 +111,7 @@ public class AreaDao implements IDaoArea {
         Area area = null;
         String consulta = "SELECT * FROM area where id = ?";
         try {
-
+            
             PreparedStatement ps = Conexion.obtener().prepareStatement(consulta);
             ps.setInt(1, cod);
             ResultSet rs = ps.executeQuery();
@@ -124,7 +123,7 @@ public class AreaDao implements IDaoArea {
                 area = new Area(id, id_poli, loc, deporte);
             }
         } catch (SQLException ex) {
-            System.out.println(ex);
+            throw new DaoExepcion(ex);
         } finally {
             Conexion.cerrar();
         }
@@ -175,5 +174,44 @@ public class AreaDao implements IDaoArea {
         
         
     }
+
+    @Override
+    public List<Area> buscar(HashMap<Object, Object> a) throws DaoExepcion {
+         ArrayList<Area> eventos = new ArrayList<>();
+         LinkedList<Integer> ids = new LinkedList<>();
+         
+        String columna = "";
+        int p = 1;
+        try {
+            for (Object key : a.keySet()) {
+                columna = String.format("%s", key);
+            }
+
+            String consulta = String.format("SELECT DISTINCT id FROM area WHERE %s LIKE ?",
+                    StringUtils.join(columna));
+            
+            PreparedStatement ps = Conexion.obtener().prepareStatement(consulta);
+            for (Object key : a.keySet()) {
+                if (a.get(key) instanceof String) {
+                    ps.setString(p++, (String) a.get(key));
+                }
+            }
+            
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                    ids.add(rs.getInt("id"));   
+            }
+
+            for (Integer id : ids) {
+                eventos.add(obtener(id));
+            }
+            
+        } catch (SQLException ex) {
+           throw new DaoExepcion(ex);
+        }
+        return eventos;
+    }
+
+  
 
 }

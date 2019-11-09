@@ -7,6 +7,7 @@ package Daos;
 
 import DaosInterfaces.IDaoUnideportivo;
 import Modelo.Conexion;
+import Modelo.Polideportivo;
 import Modelo.Unideportivo;
 import Vista.Main;
 import java.sql.PreparedStatement;
@@ -14,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -72,25 +74,6 @@ public class UnideportivoDao implements IDaoUnideportivo {
         return correcto;
     }
 
-
-    public boolean modificar(Unideportivo a) {
-       boolean correcto = false;
-        HashMap<String, String>datos = new HashMap<>();
-        datos.put("name", "nuevo");
-   
-        List<String>clausulas = new ArrayList<>();
-        
-       for (String key : datos.keySet()) {
-                clausulas.add(String.format("%s=?", key));
-        }
-    
-       
-       String consuta = String.format("UPDATE table SET %s WHERE id=?"
-       , StringUtils.join(clausulas, ","));
- 
-  
-       return correcto; 
-    }
 
     @Override
     public int eliminar(Integer  a) throws DaoExepcion {
@@ -174,10 +157,11 @@ public class UnideportivoDao implements IDaoUnideportivo {
     @Override
     public Unideportivo obtener(Integer cod) throws DaoExepcion {
         Unideportivo unideportivo = null;
-        String consulta = "SELECT * FROM sportcomplex sx INNER JOIN multisportcenter mr on sx.id = mr.id_sportcomplex";
+        String consulta = "SELECT * FROM sportcomplex sx INNER JOIN sportcenter sr on sx.id = sr.id_sportcomplex where id_sportcomplex =?";
         
         try {
             PreparedStatement ps = Conexion.obtener().prepareStatement(consulta);
+            ps.setInt(1,cod);
             ResultSet rs = ps.executeQuery();
             String deporte;
             String info;
@@ -253,5 +237,50 @@ public class UnideportivoDao implements IDaoUnideportivo {
         return correcto;
         
     }
+
+    @Override
+    public List<Unideportivo> buscar(HashMap<Object, Object> a) throws DaoExepcion {
+           ArrayList<Unideportivo>   unideportivos = new ArrayList<>();
+         LinkedList<Integer> ids = new LinkedList<>();
+
+        String columna = "";
+        int p = 1;
+        try {
+            for (Object key : a.keySet()) {
+                columna = String.format("%s", key);
+            }
+
+            String consulta = String.format("SELECT DISTINCT sr.id_sportcomplex FROM sportcomplex sx INNER JOIN sportcenter sr on " +
+            "sx.id = sr.id_sportcomplex where %s like ? ",
+                    StringUtils.join(columna));
+            
+            
+         
+            PreparedStatement ps = Conexion.obtener().prepareStatement(consulta);
+            for (Object key : a.keySet()) {
+                if (a.get(key) instanceof String) {
+                    ps.setString(p++, (String) a.get(key));
+                }
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ids.add(rs.getInt("id_sportcomplex"));
+            }
+
+            for (Integer id : ids) {
+                unideportivos.add(obtener(id));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(MaterialDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return unideportivos;
+
+        
+        
+    }
+
+   
 
 }
