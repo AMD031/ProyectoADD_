@@ -118,6 +118,14 @@ public class Evento {
     public String toString() {
         return "Evento{" + "cod=" + cod + ", nombre=" + nombre + ", cod_complejo=" + cod_complejo + ", fecha=" + fecha + ", cod_area=" + cod_area + '}';
     }
+
+    public HashMap<Comisario, String> getComisarios() {
+        return comisarios;
+    }
+
+    public void setComisarios(HashMap<Comisario, String> comisarios) {
+        this.comisarios = comisarios;
+    }
     
 
 

@@ -9,6 +9,7 @@ import DaosInterfaces.IDaoEvento;
 import Modelo.Comisario;
 import Modelo.Conexion;
 import Modelo.Evento;
+import Modelo.Material;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -126,7 +127,7 @@ public class EventoDao implements IDaoEvento {
             Timestamp fecha;
             int cod_area;
 
-            while (rs.next()) {
+           while (rs.next()) {
 
                 id = rs.getInt("id");
                 nombre = rs.getString("name");
@@ -229,5 +230,78 @@ public class EventoDao implements IDaoEvento {
         }
         return eventos;
     }
+    
+    
+    public Evento obtenerEventoConAgregados(int CodE) throws DaoExepcion{
+             Evento evento =null;
+            //variables evento
+               int codEvento= 0;
+               String nombreEvento=""; 
+               int cod_complejo =0; 
+               Timestamp fecha=null; 
+               int cod_area =0; 
+               HashMap<Comisario, String> comisarios = null;
+               List<Material> Materiales;
+            //variables comisario
+             int idComisario =0;
+             String dni ="";
+             String nombreComisario="";
+             String rol ="";
+             //variables material
+             String idmaterial ="";
+             String nombreMaterial ="";
+        
+        
+        try {
+            comisarios = new HashMap<>(); 
+            Materiales = new ArrayList<>();
+  
+            String sql ="SELECT c.id,c.dni,c.name,cv.id,cv.id_event, cv.id_comissioner,cv.rol, evt.id,evt.name,"
+                    + " evt.date,evt.id_sportcomplex, evt.id_area FROM commissioner c INNER JOIN comissioner_event cv on c.id "
+                    + "INNER JOIN event evt on cv.id_event = evt.id WHERE evt.id = ? GROUP by c.id ";
+            
+            String sqlmaterial = "SELECT eqt.id, eqt.name FROM equipment eqt "
+                    + "INNER JOIN equipment_event eqev on eqt.id = eqev.id_equipment "
+                    + "INNER JOIN event evt on eqev.id_event = ? GROUP by eqt.id";
+          
+            PreparedStatement ps =  Conexion.obtener().prepareStatement(sql);
+            ps.setInt(1,CodE);
+            ResultSet rs =ps.executeQuery();
+            while(rs.next()){
+               
+               //datos comisario
+               idComisario = rs.getInt(1);
+               dni = rs.getString(2);
+               nombreComisario = rs.getString(3);
+               rol = rs.getString(7);
+               //---------------
+               
+               comisarios.put(new Comisario(idComisario,dni, nombreComisario), rol);     
+               codEvento =  rs.getInt(8);
+               nombreEvento = rs.getString(9);
+               fecha = rs.getTimestamp(10);
+               cod_complejo = rs.getInt(11);
+               cod_area = rs.getInt(12);
+             }
+            
+            PreparedStatement ps2 = Conexion.obtener().prepareStatement(sqlmaterial);
+            ps2.setInt(1, CodE);
+            ResultSet rs2 = ps2.executeQuery();
+            while (rs2.next()){ 
+                Materiales.add(new Material(rs2.getInt(1),rs2.getString(2)));
+            }
+            evento = new Evento(codEvento,nombreEvento, cod_complejo, fecha, cod_area, comisarios, Materiales);
+        } catch (SQLException ex) {
+           throw new DaoExepcion(ex);
+        }finally{
+            Conexion.cerrar();
+        }
+       return evento;
+    }
+    
+    
+ 
+    
+    
 
 }

@@ -15,8 +15,6 @@ import Modelo.Sede;
 import Modelo.Unideportivo;
 import Vista.Menu;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -25,7 +23,7 @@ import java.util.logging.Logger;
 public class Controlador {
 
     public static void mostrar(String str) throws DaoExepcion {
-
+        
         if (str.equals("sede")) {
             Vista.Menu.imprimeContenido(Daos.ManagerDao.getSededao().ObtenerTodos());
         }
@@ -56,259 +54,158 @@ public class Controlador {
 
     }
 
-    public static void insertar(String str, Object a) {
+    public static void insertar(String str, Object a) throws DaoExepcion {
+       
         if (str.equals("sede")) {
-            try {
-                Daos.ManagerDao.getSededao().insertar((Sede) a);
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Daos.ManagerDao.getSededao().insertar((Sede) a);
         }
 
         if (str.equals("unideportivo")) {
-            try {
-                Daos.ManagerDao.getUnideportivo().insertar((Unideportivo) a);
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Daos.ManagerDao.getUnideportivo().insertar((Unideportivo) a);
         }
 
         if (str.equals("polideportivo")) {
-            try {
-                Daos.ManagerDao.getPolideportivo().insertar((Polideportivo) a);
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Daos.ManagerDao.getPolideportivo().insertar((Polideportivo) a);
         }
 
         if (str.equals("area")) {
-            try {
-                Daos.ManagerDao.getAreadao().insertar((Area) a);
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
+            Daos.ManagerDao.getAreadao().insertar((Area) a);
         }
 
         if (str.equals("evento")) {
-            try {
-                Daos.ManagerDao.getEventodao().insertar((Evento) a);
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
+            Daos.ManagerDao.getEventodao().insertar((Evento) a);
         }
         if (str.equals("comisario")) {
-            try {
-                Daos.ManagerDao.getComisariodao().insertar((Comisario) a);
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Daos.ManagerDao.getComisariodao().insertar((Comisario) a);
 
         }
 
         if (str.equals("material")) {
-            try {
-                Daos.ManagerDao.getMateraildao().insertar((Material) a);
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
+            Daos.ManagerDao.getMateraildao().insertar((Material) a);
         }
 
     } //fin metodo 
 
-    public static void borrar(String str, int cod) {
+    public static void borrar(String str, int cod) throws DaoExepcion {
 
         if (str.equals("sede")) {
-
-            try {
-                Daos.ManagerDao.getSededao().eliminar(cod);
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
+            Daos.ManagerDao.getSededao().eliminar(cod);
         }
 
         if (str.equals("unideportivo")) {
-            try {
-                Daos.ManagerDao.getUnideportivo().eliminar(cod);
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
+            Daos.ManagerDao.getUnideportivo().eliminar(cod);
         }
 
         if (str.equals("polideportivo")) {
-            try {
-                Daos.ManagerDao.getPolideportivo().eliminar(cod);
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
+            Daos.ManagerDao.getPolideportivo().eliminar(cod);
         }
 
         if (str.equals("area")) {
-            try {
-                Daos.ManagerDao.getAreadao().eliminar(cod);
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
+            Daos.ManagerDao.getAreadao().eliminar(cod);
         }
 
         if (str.equals("evento")) {
-
-            try {
                 Daos.ManagerDao.getEventodao().eliminar(cod);
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        }
+          }
 
         if (str.equals("comisario")) {
-            try {
-                Daos.ManagerDao.getComisariodao().eliminar(cod);
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
+            Daos.ManagerDao.getComisariodao().eliminar(cod);
         }
 
         if (str.equals("material")) {
-            try {
-                Daos.ManagerDao.getMateraildao().eliminar(cod);
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
+            Daos.ManagerDao.getMateraildao().eliminar(cod);
         }
-
     }
 
-    public static void actualizar(String str, HashMap<Object, Object> datos, int cod) {
+    public static void actualizar(String str, HashMap<Object, Object> datos, int cod) throws DaoExepcion {
 
         if (str.equals("sede")) {
-            try {
                 Daos.ManagerDao.getSededao().modificar(datos, cod);
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
 
         if (str.equals("unideportivo")) {
-            try {
-                Daos.ManagerDao.getUnideportivo().modificar(datos, cod);
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
+          Daos.ManagerDao.getUnideportivo().modificar(datos, cod);
         }
 
         if (str.equals("polideportivo")) {
-            try {
-                Daos.ManagerDao.getPolideportivo().modificar(datos, cod);
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
+           Daos.ManagerDao.getPolideportivo().modificar(datos, cod);
         }
 
         if (str.equals("area")) {
-            try {
-                Daos.ManagerDao.getAreadao().modificar(datos, cod);
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
+           Daos.ManagerDao.getAreadao().modificar(datos, cod);
         }
 
         if (str.equals("evento")) {
-            try {
-                Daos.ManagerDao.getEventodao().modificar(datos, cod);
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
+           Daos.ManagerDao.getEventodao().modificar(datos, cod);
         }
 
         if (str.equals("comisario")) {
-            try {
-                Daos.ManagerDao.getComisariodao().modificar(datos, cod);
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
+           Daos.ManagerDao.getComisariodao().modificar(datos, cod);
         }
 
         if (str.equals("material")) {
-            try {
-                Daos.ManagerDao.getMateraildao().modificar(datos, cod);
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
+           Daos.ManagerDao.getMateraildao().modificar(datos, cod);
         }
 
     }
 
-    public static void buscar(String str, HashMap<Object, Object> datos) {
+    public static void buscar(String str, HashMap<Object, Object> datos) throws DaoExepcion {
         if (str.equals("sede")) {
-            try {
-                Menu.imprimeContenido(Daos.ManagerDao.getSededao().buscar(datos));
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
+             Menu.imprimeContenido(Daos.ManagerDao.getSededao().buscar(datos));
         }
-
+        
         if (str.equals("unideportivo")) {
-            try {
-                Menu.imprimeContenido(  Daos.ManagerDao.getUnideportivo().buscar(datos));
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
+          Menu.imprimeContenido(Daos.ManagerDao.getUnideportivo().buscar(datos));
         }
 
         if (str.equals("polideportivo")) {
-
-            try {
-                Menu.imprimeContenido(  Daos.ManagerDao.getPolideportivo().buscar(datos));
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
+           Menu.imprimeContenido(Daos.ManagerDao.getPolideportivo().buscar(datos));
         }
 
         if (str.equals("area")) {
-            try {
-                 Menu.imprimeContenido(Daos.ManagerDao.getAreadao().buscar(datos));
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
+           Menu.imprimeContenido(Daos.ManagerDao.getAreadao().buscar(datos));
         }
 
         if (str.equals("evento")) {
-            try {
-               Menu.imprimeContenido(  Daos.ManagerDao.getEventodao().buscar(datos));
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
+          Menu.imprimeContenido(Daos.ManagerDao.getEventodao().buscar(datos));
         }
         if (str.equals("comisario")) {
-            try {
-                Menu.imprimeContenido( Daos.ManagerDao.getComisariodao().buscar(datos));
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
+          Menu.imprimeContenido(Daos.ManagerDao.getComisariodao().buscar(datos));
         }
 
         if (str.equals("material")) {
-            try {
-                Menu.imprimeContenido(Daos.ManagerDao.getMateraildao().buscar(datos));
-            } catch (DaoExepcion ex) {
-                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
+           Menu.imprimeContenido(Daos.ManagerDao.getMateraildao().buscar(datos));
         }
 
     }
+
+    public static void agregarComisarioEvento(int codC, String rol, int codE) throws DaoExepcion {
+        Daos.ManagerDao.getComisariodao().agregarComisarioEvento(codC, rol, codE);
+    }
+    
+    public static void agregarMaterialEvento(int codE, int codM) throws DaoExepcion {
+       Daos.ManagerDao.getMateraildao().AgregarMaterialEvento(codE, codM); 
+    }
+    
+    public static void obtenerComisariosEvento(int codEvento) throws DaoExepcion{
+       Menu.imprimeHashmap(Daos.ManagerDao.getEventodao().obtenerEventoConAgregados(codEvento).getComisarios());
+    }
+    
+    public static void obtenerMaterialesEvento(int codEvento) throws DaoExepcion{
+      Menu.imprimeContenido(Daos.ManagerDao.getEventodao().obtenerEventoConAgregados(codEvento).getMateriales());
+    }
+    
+    public static void obtenerEventosPolideportivo(int codUni) throws DaoExepcion{
+       Menu.imprimeContenido(Daos.ManagerDao.getPolideportivo().obtenerEventosPolideportivo(codUni));
+    }
+    
+     public static void obtenerEventosUnideportivo(int codPoli) throws DaoExepcion{
+      Menu.imprimeContenido(Daos.ManagerDao.getUnideportivo().obtenerEventosUnideportivo(codPoli));
+    }
+    
+    
+    
+    
+    
 
 }

@@ -7,16 +7,14 @@ package Daos;
 
 import DaosInterfaces.IDaoMaterial;
 import Modelo.Conexion;
+import Modelo.Evento;
 import Modelo.Material;
-import Modelo.Sede;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -197,5 +195,36 @@ public class MaterialDao implements IDaoMaterial {
     }
 
    
+   public void AgregarMaterialEvento(int codE, int codM) throws DaoExepcion{
+            Material m =  obtener(codM);
+            Evento e =  Daos.ManagerDao.getEventodao().obtener(codE);
+            String sql = "INSERT INTO equipment_event (id, id_equipment, id_event) VALUES (NULL, ?, ?)";
+            if(e!=null && m!=null){
+                try {
+                  PreparedStatement ps = Conexion.obtener().prepareStatement(sql);
+                  ps.setInt(1, m.getCod());
+                  ps.setInt(2, e.getCod());
+                if(  ps.executeUpdate()<1){            
+                   throw new DaoExepcion("no se ha insertado");
+                }      
+                  
+                } catch (SQLException ex) {
+                   
+                 throw new DaoExepcion(ex);
+                }finally{
+                     Conexion.cerrar();
+                }
+  
+            }else{
+                Conexion.cerrar();
+                  throw new DaoExepcion("No existe en la base de datos algunos elementos.");
+                  
+            }
+            
+       
+       
+   }
+    
+    
 
 }

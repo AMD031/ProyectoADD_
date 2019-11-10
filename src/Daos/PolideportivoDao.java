@@ -7,12 +7,14 @@ package Daos;
 
 import DaosInterfaces.IDaoPolideportivo;
 import Modelo.Conexion;
+import Modelo.Evento;
 import Modelo.Material;
 import Modelo.Polideportivo;
 import Vista.Main;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -242,8 +244,6 @@ public class PolideportivoDao implements IDaoPolideportivo {
         
     }
 
-
-
     @Override
     public List<Polideportivo> buscar(HashMap<Object, Object> a) throws DaoExepcion {
          ArrayList<Polideportivo> polideportivos = new ArrayList<>();
@@ -283,4 +283,40 @@ public class PolideportivoDao implements IDaoPolideportivo {
 
     }
 
+   public List<Evento>obtenerEventosPolideportivo(int codEV) throws DaoExepcion{
+        String sql = "SELECT DISTINCT ev.id, ev.name, ev.date,ev.id_sportcomplex,ev.id_area FROM event ev INNER JOIN sportcomplex sx on ev.id_sportcomplex =? where ev.id_area !=0 GROUP BY ev.id";
+            int id;
+            String nombre;
+            int cod_complejo;
+            Timestamp fecha;
+            int cod_area;
+            Evento evento =null;
+        
+        List<Evento>eventos = new ArrayList<>();
+        try {
+          PreparedStatement ps =  Conexion.obtener().prepareStatement(sql);
+          ps.setInt(1,codEV);
+          ResultSet rs =  ps.executeQuery();
+            while (rs.next()) {
+                id = rs.getInt(1);
+                nombre = rs.getString(2);
+                fecha = rs.getTimestamp(3);
+                cod_complejo = rs.getInt(4);
+                cod_area = rs.getInt(5);
+                evento = new Evento(id, nombre,  cod_complejo,  fecha, cod_area); 
+                
+                
+            if(evento !=null){
+               eventos.add(evento);
+            }
+           }
+        } catch (SQLException ex) {
+         throw new DaoExepcion(ex); 
+        }finally{
+            Conexion.cerrar();
+        }  
+        return eventos;
+       }
+ 
+    
 }

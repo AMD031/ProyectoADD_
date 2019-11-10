@@ -8,7 +8,7 @@ package Daos;
 import DaosInterfaces.IDaoComisario;
 import Modelo.Comisario;
 import Modelo.Conexion;
-import Modelo.Material;
+import Modelo.Evento;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -212,6 +212,38 @@ public class ComisarioDao implements IDaoComisario {
         return comisarios;
     }
 
-  
-
+    public void agregarComisarioEvento(int codC, String rol, int codE ) throws DaoExepcion{
+    
+            Comisario c =  obtener(codC);
+            Evento e =  Daos.ManagerDao.getEventodao().obtener(codE);
+            String sql = "INSERT INTO comissioner_event (id, id_event, id_comissioner, rol) VALUES (NULL, ?, ?, ?)";
+            if(e!=null && c!=null){
+                try {
+                  PreparedStatement ps = Conexion.obtener().prepareStatement(sql);
+                  ps.setInt(1, e.getCod());
+                  ps.setInt(2, c.getCod());
+                  ps.setString(3,rol);
+                 if( ps.executeUpdate()<1){      
+                       throw new DaoExepcion("no se ha insertado");
+                 }  
+                 
+               } catch (SQLException ex) { 
+               
+                 throw new DaoExepcion(ex);
+                }finally{
+                  Conexion.cerrar();
+                }
+             }else{
+                Conexion.cerrar();
+                throw new DaoExepcion("No existe en la base de datos algunos elementos.");
+            }
+            
+     
+    }
+    
+ 
+      
+      
+      
+    
 }
